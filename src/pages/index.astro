@@ -370,12 +370,14 @@ const GOOGLE_FORM_URL =
                   ))}
                 </ul>
                 <dl class="plan-meta">
+                  {plan.priceRange && (
+                    <div>
+                      <dt>目安費用</dt>
+                      <dd>{plan.priceRange}</dd>
+                    </div>
+                  )}
                   <div>
-                    <dt>目安費用</dt>
-                    <dd>{plan.priceRange}</dd>
-                  </div>
-                  <div>
-                    <dt>期間</dt>
+                    <dt>想定期間</dt>
                     <dd>{plan.duration}</dd>
                   </div>
                 </dl>

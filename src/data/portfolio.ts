@@ -55,7 +55,7 @@ export interface ServicePlan {
   target: string;
   description: string;
   deliverables: string[];
-  priceRange: string;
+  priceRange?: string;
   duration: string;
 }
 
@@ -312,7 +312,6 @@ export const SERVICE_PLANS: ServicePlan[] = [
       'エラー検知・リトライ・ログ記録機構の組み込み',
       '運用手順書および引き継ぎレクチャー',
     ],
-    priceRange: '100,000円〜300,000円（税別・目安）',
     duration: '1〜3週間',
   },
   {
@@ -327,7 +326,6 @@ export const SERVICE_PLANS: ServicePlan[] = [
       'SQLite / DuckDB / BigQuery 等のデータストア設計',
       'データ品質監査レポート出力（異常値・除外データの可視化）',
     ],
-    priceRange: '250,000円〜600,000円（税別・目安）',
     duration: '3〜6週間',
   },
   {
@@ -342,7 +340,6 @@ export const SERVICE_PLANS: ServicePlan[] = [
       'AIエージェント制御プレーン・キャッシュ最適化設計',
       '週次/隔週のアーキテクチャレビュー・技術相談（顧問契約可）',
     ],
-    priceRange: '月額 100,000円〜 / スポット開発 300,000円〜',
     duration: '1ヶ月〜（スポット相談も可）',
   },
 ];
