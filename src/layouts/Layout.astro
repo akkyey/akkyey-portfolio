@@ -1,0 +1,182 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'akkyey | 止まらない仕組みづくり — データ基盤・業務自動化・AI導入支援',
+  description = 'API制限で止まる夜間バッチ、終わらない手作業の集計、思いどおりに動かないAI。プロジェクトマネージャーとして現場を回してきたエンジニア akkyey が、「止まる前提」で設計し、壊れても自分で立ち直る仕組みに作り替えます。',
+} = Astro.props;
+
+const ogImage = new URL('/og-image.png', Astro.site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'akkyey',
+    alternateName: '@akkyey',
+    description,
+    url: 'https://akkyey.pages.dev',
+    image: ogImage,
+    sameAs: ['https://qiita.com/akkyey'],
+    knowsAbout: [
+      'Python Data Engineering',
+      'Polars',
+      'DuckDB',
+      'SQLite',
+      'EDINET API',
+      'yfinance',
+      'Google Apps Script (GAS)',
+      'Notion API',
+      'Model Context Protocol (MCP)',
+      'Local LLM Control Plane',
+      'Rust',
+      'System Architecture',
+    ],
+  },
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f5f0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Zen+Maru+Gothic:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="akkyey — 止まらない仕組みづくり" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="止まらない仕組みを、つくります。— akkyey の自画像とキャッチコピー" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface-tint: #efece4;
+    --ink: #1c1f23;
+    --ink-2: #474c54;
+    --muted: #686d75;
+    --rule: #dcd7cc;
+    --rule-strong: #bdb7aa;
+    --accent: #0f5e57;
+    --accent-strong: #0a4540;
+    --accent-soft: #e2eeeb;
+    --on-accent: #ffffff;
+    --marker: #f3dd9b;
+    --ok: #2f8f5b;
+    --ok-text: #22704a;
+    --ok-soft: #e4f2ea;
+    --danger: #b3261e;
+    --danger-soft: #fbeae8;
+    --radius-sm: 0.5rem;
+    --radius: 0.875rem;
+    --container-max: 1120px;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+      'Meiryo', 'Yu Gothic UI', system-ui, sans-serif;
+    --font-heading: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Hiragino Sans', 'Meiryo',
+      sans-serif;
+    --font-num: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-block-start: 5rem;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    overflow-x: hidden;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-block-start: -100px;
+    inset-inline-start: 1rem;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    z-index: 9999;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    inset-block-start: 1rem;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--accent-strong);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .container {
+    width: min(100% - 2.5rem, var(--container-max));
+    margin-inline: auto;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    clip-path: inset(50%);
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    white-space: nowrap;
+  }
+</style>

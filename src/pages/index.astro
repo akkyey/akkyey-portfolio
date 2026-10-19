@@ -1,0 +1,1522 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {
+  SITE_STATS,
+  PILLARS,
+  SEO_EVIDENCES,
+  PRODUCTS_AND_BOOKS,
+  SERVICE_PLANS,
+  ALL_ARTICLES,
+  type Article,
+} from '../data/portfolio';
+
+const articleMap = new Map<string, Article>(
+  ALL_ARTICLES.map((article) => [article.itemId, article])
+);
+
+const categoryLabels: Record<Article['category'], string> = {
+  'data-pipeline': 'データ基盤',
+  'gas-automation': '業務自動化',
+  'ai-mcp-llm': 'AI・LLM',
+  architecture: '設計思想',
+};
+
+const sortedByPv = [...ALL_ARTICLES].sort((a, b) => b.pv - a.pv);
+const topArticles = sortedByPv.slice(0, 5);
+
+const availableProducts = PRODUCTS_AND_BOOKS.filter((p) => p.status === 'available');
+const upcomingProducts = PRODUCTS_AND_BOOKS.filter((p) => p.status !== 'available');
+
+// 各領域で読者に見せる代表記事は PV 上位 3 本に絞る
+const pillarReps = (ids: string[]) =>
+  ids
+    .map((id) => articleMap.get(id))
+    .filter((a): a is Article => Boolean(a))
+    .sort((a, b) => b.pv - a.pv)
+    .slice(0, 3);
+
+// Google フォームのURL
+const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScNXZCqWAvDhvRGUUxNFqIOgAePvuUZ9DCsIjOkxFcn6ia6IA/viewform';
+---
+
+<Layout>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="akkyey ホーム">
+        <img class="brand-avatar" src="/akkyey-avatar-96.webp" alt="" width="36" height="36" />
+        <span class="brand-name">akkyey</span>
+        <span class="brand-desc">止まらない仕組みづくり</span>
+      </a>
+
+      <nav class="main-nav" aria-label="主要ナビゲーション">
+        <a href="#services">できること</a>
+        <a href="#about">私について</a>
+        <a href="#evidence">実績</a>
+        <a href="#articles">記事</a>
+        <a href="#contact" class="nav-cta">相談する</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <p class="status">
+          <span class="status-dot" aria-hidden="true"></span>
+          開発支援・業務自動化・技術顧問のご相談を受付中
+        </p>
+
+        <h1 class="hero-title">
+          止まらない仕組みを、<br />
+          つくります。
+        </h1>
+
+        <p class="hero-lead">
+          API制限で止まる夜間バッチ。終わらない手作業の集計。思いどおりに動かないAI。プロジェクトマネージャーとして現場を回してきた経験から、<strong>「止まる前提」で設計し、壊れても自分で立ち直る仕組み</strong>に作り替えます。
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">無料で相談する</a>
+          <a href="#services" class="btn btn-text">できることを見る →</a>
+        </div>
+
+        <dl class="hero-proof">
+          <div>
+            <dt>AIの利用コスト</dt>
+            <dd><span class="num">−90</span><span class="unit">%</span></dd>
+          </div>
+          <div>
+            <dt>4,400銘柄の全データ処理</dt>
+            <dd><span class="num">9</span><span class="unit">分台</span></dd>
+          </div>
+          <div>
+            <dt>Google検索1位を獲得したテーマ</dt>
+            <dd><span class="num">{SITE_STATS.seoTopCount}</span><span class="unit">件</span></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- SERVICES / PILLARS -->
+    <section id="services" class="section">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">できること</p>
+          <h2 class="section-title">3つの領域で、現場の「困った」を解きます</h2>
+        </header>
+
+        <ol class="pillars">
+          {
+            PILLARS.map((pillar) => (
+              <li class="pillar" id={`pillar-${pillar.id}`}>
+                <div class="pillar-head">
+                  <span class="pillar-no">{pillar.number}</span>
+                  <div>
+                    <h3 class="pillar-title">{pillar.title}</h3>
+                    <p class="pillar-sub">{pillar.subtitle}</p>
+                  </div>
+                </div>
+
+                <div class="pillar-body">
+                  <div class="pillar-problem">
+                    <h4>よくあるお困りごと</h4>
+                    <p>{pillar.clientProblem}</p>
+                  </div>
+                  <div class="pillar-solution">
+                    <h4>こう解決します</h4>
+                    <p>{pillar.businessValue}</p>
+                  </div>
+
+                  <ul class="pillar-metrics" aria-label="実績値">
+                    {pillar.metrics.map((m) => (
+                      <li>
+                        <span class="metric-val">{m.value}</span>
+                        <span class="metric-lbl">{m.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <p class="pillar-stack">
+                    <span>使う技術</span>
+                    {pillar.techStack.join(' / ')}
+                  </p>
+
+                  <div class="pillar-reads">
+                    <h4>関連する記事</h4>
+                    <ul>
+                      {pillarReps(pillar.representativeIds).map((a) => (
+                        <li>
+                          <a href={a.url} target="_blank" rel="noopener noreferrer">
+                            {a.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section-tint">
+      <div class="container about">
+        <figure class="portrait">
+          <img
+            src="/akkyey-portrait-480.webp"
+            srcset="/akkyey-portrait-480.webp 480w, /akkyey-portrait-960.webp 960w"
+            sizes="(max-width: 960px) 260px, 340px"
+            width="480"
+            height="720"
+            loading="lazy"
+            alt="akkyeyの自画像。白髪を後ろで束ね、VRゴーグルをかけてノートPCに向かう姿。後ろにメガネのラマ、横にペンギン。"
+          />
+          <figcaption>akkyey（自画像）</figcaption>
+        </figure>
+
+        <div class="about-main">
+        <header class="section-header">
+          <p class="section-kicker">私について</p>
+          <h2 class="section-title">プロマネの目で、技術を選ぶ</h2>
+        </header>
+
+        <div class="about-body">
+          <div class="about-text">
+            <p>
+              会社では長くプロジェクトマネージャーとして、要件・予算・納期の折り合いをつけながら現場を回してきました。そこで身についたのは、報告や見積もりを鵜呑みにせず「それは本当に動くのか」「止まったとき誰が困るのか」を最初に確かめる習慣です。
+            </p>
+            <p>
+              いまはAIエージェントも“チームの一員”として扱い、同じ目でマネジメントしています。出てきた成果は必ず検証し、暴走やコストの膨張は仕組みの側で止める。その姿勢を、ご依頼いただくシステムにもそのまま持ち込みます。
+            </p>
+          </div>
+
+          <ol class="principles">
+            <li>
+              <strong>止まる前提で設計する</strong>
+              <span>外部APIの制限や欠損は「起きるもの」として扱い、自動で復旧する道筋を最初から組み込みます。</span>
+            </li>
+            <li>
+              <strong>数字で確かめる</strong>
+              <span>速くなった・安くなったは、処理時間やコストの実測値でご報告します。</span>
+            </li>
+            <li>
+              <strong>引き継げる形で納める</strong>
+              <span>コードはGit管理、運用手順書つき。私がいなくても回る状態をゴールにします。</span>
+            </li>
+          </ol>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVIDENCE -->
+    <section id="evidence" class="section">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">実績</p>
+          <h2 class="section-title">技術記事がGoogle検索の上位に選ばれています</h2>
+          <p class="section-desc">
+            実際に現場で起きた問題を解いた記事が、同じ問題に困っている人の検索に応えています。（{SITE_STATS.asOfDate} 時点で確認）
+          </p>
+        </header>
+
+        <div class="evidence-wrap" role="region" aria-label="検索上位キーワード一覧" tabindex="0">
+          <table class="evidence">
+            <thead>
+              <tr>
+                <th scope="col">検索キーワード</th>
+                <th scope="col">結果</th>
+                <th scope="col">評価されたポイント</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                SEO_EVIDENCES.map((item) => (
+                  <tr>
+                    <td class="ev-query">
+                      {item.queries.map((q) => <span>{q}</span>)}
+                    </td>
+                    <td class="ev-pos">{item.position}</td>
+                    <td class="ev-note">{item.highlight}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="section section-tint">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">書籍・テンプレート</p>
+          <h2 class="section-title">記事をまとめた、すぐ使える形</h2>
+        </header>
+
+        <div class="products">
+          {
+            availableProducts.map((prod) => (
+              <article class="product-feature">
+                <p class="product-state">{prod.priceOrLicense}</p>
+                <h3>{prod.title}</h3>
+                <p>{prod.description}</p>
+                <ul>
+                  {prod.features.map((f) => (
+                    <li>{f}</li>
+                  ))}
+                </ul>
+                <a
+                  href={prod.linkUrl}
+                  target={prod.linkUrl.startsWith('http') ? '_blank' : undefined}
+                  rel={prod.linkUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  class="btn btn-secondary"
+                >
+                  {prod.linkLabel} {prod.linkUrl.startsWith('http') ? '↗' : '→'}
+                </a>
+              </article>
+            ))
+          }
+
+          {upcomingProducts.length > 0 && (
+            <div class="product-upcoming">
+              <h3>準備中の書籍</h3>
+              <ul>
+                {upcomingProducts.map((prod) => (
+                  <li>
+                    <strong>{prod.title}</strong>
+                    <span>{prod.badge}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="#contact" class="btn-text">公開時にお知らせを受け取る →</a>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <!-- ARTICLES -->
+    <section id="articles" class="section">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">記事</p>
+          <h2 class="section-title">よく読まれている記事</h2>
+          <p class="section-desc">
+            Qiitaで{SITE_STATS.totalArticles}本の技術記事を公開しています（累計 {SITE_STATS.totalPv.toLocaleString()} PV）。
+          </p>
+        </header>
+
+        <ol class="article-list">
+          {
+            topArticles.map((a) => (
+              <li>
+                <span class="art-cat">{categoryLabels[a.category]}</span>
+                <a href={a.url} target="_blank" rel="noopener noreferrer" class="art-title">
+                  {a.title}
+                </a>
+                <span class="art-pv">{a.pv.toLocaleString()} PV</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <details class="all-articles">
+          <summary>全{SITE_STATS.totalArticles}本を見る</summary>
+          <ol class="article-list article-list-compact">
+            {
+              sortedByPv.slice(topArticles.length).map((a) => (
+                <li>
+                  <span class="art-cat">{categoryLabels[a.category]}</span>
+                  <a href={a.url} target="_blank" rel="noopener noreferrer" class="art-title">
+                    {a.title}
+                  </a>
+                  <span class="art-pv">{a.pv.toLocaleString()} PV</span>
+                </li>
+              ))
+            }
+          </ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section section-tint">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">ご相談</p>
+          <h2 class="section-title">まずは、困っていることをお聞かせください</h2>
+          <p class="section-desc">
+            要件が固まっていなくても大丈夫です。「これは自動化できる？」「このエラーを直したい」といった段階からお受けしています。
+          </p>
+        </header>
+
+        <div class="plans">
+          {
+            SERVICE_PLANS.map((plan) => (
+              <article class="plan">
+                <p class="plan-badge">{plan.badge}</p>
+                <h3 class="plan-title">{plan.title}</h3>
+                <p class="plan-target">{plan.target}</p>
+                <ul class="plan-deliverables">
+                  {plan.deliverables.map((d) => (
+                    <li>{d}</li>
+                  ))}
+                </ul>
+                <dl class="plan-meta">
+                  <div>
+                    <dt>目安費用</dt>
+                    <dd>{plan.priceRange}</dd>
+                  </div>
+                  <div>
+                    <dt>期間</dt>
+                    <dd>{plan.duration}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="contact-container">
+          <div class="contact-info">
+            <h3>お問い合わせの流れ</h3>
+            <p>通常1〜2営業日以内にご返信します。</p>
+
+            <ol class="process-steps">
+              <li>
+                <strong>フォームからご連絡</strong>
+                <span>ご相談の種類と、いまの困りごとを簡単にご記入ください。</span>
+              </li>
+              <li>
+                <strong>ヒアリング（30分程度）</strong>
+                <span>テキストまたはオンラインで課題を整理し、構成をご提案します。</span>
+              </li>
+              <li>
+                <strong>お見積もり・着手</strong>
+                <span>範囲・納期・費用に合意いただいてから実装を始めます。</span>
+              </li>
+            </ol>
+
+            <p class="contact-alt">
+              Qiita（<a href="https://qiita.com/akkyey" target="_blank" rel="noopener noreferrer">@akkyey</a>）経由でのご連絡も可能です。
+            </p>
+          </div>
+          <div class="contact-form-wrapper google-form-card">
+            <div class="gform-badge-row">
+              <span class="gform-badge">Google フォーム受付</span>
+              <span class="gform-privacy">ログイン不要・秘密保持</span>
+            </div>
+
+            <h4 class="gform-title">無料ご相談・お問い合わせ</h4>
+            <p class="gform-lead">
+              開発支援・業務自動化・技術顧問・有料記事やテンプレートに関するご質問など、お気軽にお送りください。<br />
+              Googleアカウントをお持ちでない方でもそのままご記入いただけます。
+            </p>
+
+            <div class="gform-points">
+              <div class="gform-point-item">
+                <span class="point-icon" aria-hidden="true">✓</span>
+                <div>
+                  <strong>通常1〜2営業日以内にご返信</strong>
+                  <p>記載いただいたメールアドレス宛に、一次回答およびヒアリング日程をご案内します。</p>
+                </div>
+              </div>
+              <div class="gform-point-item">
+                <span class="point-icon" aria-hidden="true">✓</span>
+                <div>
+                  <strong>初回ヒアリング・技術壁打ち無料</strong>
+                  <p>「こういう自動化やデータ収集が可能か知りたい」といった要件定義前の壁打ちも歓迎です。</p>
+                </div>
+              </div>
+              <div class="gform-point-item">
+                <span class="point-icon" aria-hidden="true">✓</span>
+                <div>
+                  <strong>柔軟な進め方</strong>
+                  <p>テキストベースのやり取り、またはオンラインMTG（30分程度）で進められます。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="gform-cta">
+              <a
+                href={GOOGLE_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary btn-large gform-btn"
+              >
+                Google フォームで相談する ↗
+              </a>
+              <span class="gform-note">※ 新しいタブでGoogleフォームが開きます</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-brand"><strong>akkyey</strong> — 止まらないデータ基盤・業務自動化・AI導入支援</p>
+      <nav class="footer-links" aria-label="フッターナビゲーション">
+        <a href="#services">できること</a>
+        <a href="#about">私について</a>
+        <a href="#evidence">実績</a>
+        <a href="#articles">記事</a>
+        <a href="#contact">相談する</a>
+        <a href="https://qiita.com/akkyey" target="_blank" rel="noopener noreferrer">Qiita ↗</a>
+      </nav>
+      <p class="footer-copy">&copy; {new Date().getFullYear()} akkyey</p>
+    </div>
+  </footer>
+</Layout>
+
+
+<style>
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-block-size: 4rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    color: var(--ink);
+  }
+
+  .brand:hover {
+    color: var(--ink);
+  }
+
+  .brand-avatar {
+    inline-size: 36px;
+    block-size: 36px;
+    border-radius: 50%;
+    align-self: center;
+    border: 1px solid var(--rule);
+  }
+
+  .brand-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .brand-desc {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .main-nav a {
+    color: var(--ink-2);
+  }
+
+  .main-nav a:hover {
+    color: var(--accent);
+  }
+
+  .main-nav .nav-cta {
+    color: var(--on-accent);
+    background: var(--accent);
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .main-nav .nav-cta:hover {
+    color: var(--on-accent);
+    background: var(--accent-strong);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-strong);
+    color: var(--on-accent);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .btn-secondary:hover {
+    background: var(--accent-soft);
+  }
+
+  .btn-text {
+    font-weight: 600;
+    color: var(--accent);
+    padding-inline: 0;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-block: clamp(4rem, 10vw, 7.5rem) clamp(3rem, 7vw, 5rem);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 2rem;
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  .status-dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 20%, transparent);
+  }
+
+  .hero-title {
+    word-break: auto-phrase;
+    text-wrap: balance;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6.5vw, 4.75rem);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    margin: 0 0 1.75rem;
+    color: var(--ink);
+  }
+
+  .hero-lead {
+    max-inline-size: 40em;
+    font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+    line-height: 1.95;
+    color: var(--ink-2);
+    margin: 0 0 2.5rem;
+  }
+
+  .hero-lead strong {
+    color: var(--ink);
+    background: linear-gradient(transparent 62%, var(--marker) 62%);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+  }
+
+  .hero-proof {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: clamp(3.5rem, 7vw, 5rem) 0 0;
+    border-block-start: 1px solid var(--rule);
+  }
+
+  .hero-proof > div {
+    padding: 1.5rem 1.5rem 0 0;
+  }
+
+  .hero-proof > div + div {
+    padding-inline-start: 1.5rem;
+    border-inline-start: 1px solid var(--rule);
+  }
+
+  .hero-proof dt {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-block-end: 0.25rem;
+  }
+
+  .hero-proof dd {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .hero-proof .num {
+    font-family: var(--font-num);
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-proof .unit {
+    font-size: 1rem;
+    margin-inline-start: 0.2rem;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Sections ---------- */
+  .section {
+    padding-block: clamp(4rem, 9vw, 6.5rem);
+  }
+
+  .section-tint {
+    background: var(--surface-tint);
+    border-block: 1px solid var(--rule);
+  }
+
+  .section-header {
+    max-inline-size: 52rem;
+    margin-block-end: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .section-kicker {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .section-title {
+    word-break: auto-phrase;
+    text-wrap: balance;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(1.625rem, 3.4vw, 2.375rem);
+    line-height: 1.45;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .section-desc {
+    margin: 1rem 0 0;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Pillars ---------- */
+  .pillars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pillar {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2rem 4rem;
+    padding-block: 3rem;
+    border-block-start: 1px solid var(--rule);
+  }
+
+  .pillar:last-child {
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .pillar-head {
+    position: sticky;
+    inset-block-start: 6rem;
+    align-self: start;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .pillar-no {
+    font-family: var(--font-num);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--accent);
+    padding-block-start: 0.35rem;
+  }
+
+  .pillar-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+  }
+
+  .pillar-sub {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+  }
+
+  .pillar-body h4 {
+    margin: 0 0 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .pillar-body p {
+    margin: 0;
+  }
+
+  .pillar-problem p {
+    color: var(--ink-2);
+  }
+
+  .pillar-solution {
+    margin-block-start: 1.5rem;
+  }
+
+  .pillar-metrics {
+    list-style: none;
+    padding: 0;
+    margin: 1.75rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.25rem;
+  }
+
+  .pillar-metrics li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .metric-val {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .metric-lbl {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .pillar-stack {
+    margin-block-start: 1.5rem !important;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-family: var(--font-num);
+  }
+
+  .pillar-stack span {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    margin-inline-end: 0.75rem;
+  }
+
+  .pillar-reads {
+    margin-block-start: 1.75rem;
+    padding-block-start: 1.25rem;
+    border-block-start: 1px dashed var(--rule);
+  }
+
+  .pillar-reads ul {
+    margin: 0;
+    padding-inline-start: 1.1rem;
+    font-size: 0.9375rem;
+  }
+
+  .pillar-reads li + li {
+    margin-block-start: 0.35rem;
+  }
+
+  /* ---------- About ---------- */
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 3rem 4.5rem;
+    align-items: start;
+  }
+
+  .portrait {
+    margin: 0;
+    position: sticky;
+    inset-block-start: 6rem;
+  }
+
+  .portrait img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--rule);
+  }
+
+  .portrait figcaption {
+    margin-block-start: 0.6rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .about-body {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .about-text p {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 2;
+  }
+
+  .about-text p + p {
+    margin-block-start: 1.25rem;
+  }
+
+  .principles {
+    list-style: none;
+    counter-reset: principle;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .principles li {
+    counter-increment: principle;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-block-start: 1.1rem;
+    border-block-start: 2px solid var(--ink);
+  }
+
+  .principles li::before {
+    content: counter(principle, decimal-leading-zero);
+    font-size: 0.875rem;
+    font-family: var(--font-num);
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .principles strong {
+    color: var(--ink);
+  }
+
+  .principles span {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Evidence ---------- */
+  .evidence-wrap {
+    overflow-x: auto;
+  }
+
+  .evidence {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .evidence th {
+    text-align: start;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 0 1rem 0.75rem 0;
+    border-block-end: 2px solid var(--ink);
+  }
+
+  .evidence td {
+    padding: 1rem 1rem 1rem 0;
+    border-block-end: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .ev-query {
+    inline-size: 34%;
+  }
+
+  .ev-query span {
+    display: block;
+    font-family: var(--font-num);
+    font-size: 0.875rem;
+    color: var(--ink);
+  }
+
+  .ev-query span + span {
+    margin-block-start: 0.25rem;
+  }
+
+  .ev-pos {
+    inline-size: 24%;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .ev-note {
+    color: var(--ink-2);
+  }
+
+  /* ---------- Products ---------- */
+  .products {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 2rem 4rem;
+    align-items: start;
+  }
+
+  .product-feature {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .product-state {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ok-text);
+  }
+
+  .product-feature h3 {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    line-height: 1.5;
+    margin: 0 0 1rem;
+  }
+
+  .product-feature p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  .product-feature ul {
+    margin: 1.25rem 0 1.75rem;
+    padding-inline-start: 1.1rem;
+    font-size: 0.9375rem;
+  }
+
+  .product-upcoming h3 {
+    font-size: 1rem;
+    margin: 0 0 1rem;
+    color: var(--ink-2);
+  }
+
+  .product-upcoming ul {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+  }
+
+  .product-upcoming li {
+    padding-block: 0.9rem;
+    border-block-start: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .product-upcoming li:last-child {
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .product-upcoming strong {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .product-upcoming span {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Articles ---------- */
+  .article-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-block-start: 2px solid var(--ink);
+  }
+
+  .article-list li {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding-block: 1.1rem;
+    border-block-end: 1px solid var(--rule);
+  }
+
+  .art-cat {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .art-title {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .art-title:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .art-pv {
+    font-family: var(--font-num);
+    font-size: 0.875rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .all-articles {
+    margin-block-start: 2rem;
+  }
+
+  .all-articles summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+    inline-size: fit-content;
+  }
+
+  .all-articles[open] summary {
+    margin-block-end: 1.25rem;
+  }
+
+  .article-list-compact {
+    border-block-start-width: 1px;
+  }
+
+  .article-list-compact li {
+    padding-block: 0.75rem;
+  }
+
+  .article-list-compact .art-title {
+    font-weight: 400;
+    font-size: 0.9375rem;
+  }
+
+  /* ---------- Plans ---------- */
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-block-end: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+  }
+
+  .plan-badge {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .plan-title {
+    font-size: 1.125rem;
+    line-height: 1.55;
+    margin: 0 0 0.75rem;
+  }
+
+  .plan-target {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  .plan-deliverables {
+    margin: 1.25rem 0;
+    padding-inline-start: 1.1rem;
+    font-size: 0.875rem;
+    flex: 1;
+  }
+
+  .plan-deliverables li + li {
+    margin-block-start: 0.3rem;
+  }
+
+  .plan-meta {
+    margin: 0;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid var(--rule);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .plan-meta div {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 0.5rem;
+  }
+
+  .plan-meta dt {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .plan-meta dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-container {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 2.5rem 4rem;
+    align-items: start;
+  }
+
+  .contact-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .contact-info > p {
+    margin: 0;
+    color: var(--ink-2);
+  }
+
+  .process-steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 1.75rem 0;
+    padding: 0;
+  }
+
+  .process-steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 1.5rem 2.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .process-steps li::before {
+    content: counter(step);
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .process-steps span {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+
+  .contact-alt {
+    font-size: 0.875rem;
+  }
+
+  .contact-form-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .inquiry-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* ---------- Google Form Card ---------- */
+  .google-form-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  }
+
+  .gform-badge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .gform-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+
+  .gform-privacy {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .gform-title {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-family: var(--font-heading);
+    color: var(--ink);
+  }
+
+  .gform-lead {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  .gform-points {
+    display: grid;
+    gap: 1rem;
+    background: var(--bg);
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--rule);
+  }
+
+  .gform-point-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .point-icon {
+    display: grid;
+    place-items: center;
+    inline-size: 1.35rem;
+    block-size: 1.35rem;
+    border-radius: 50%;
+    background: var(--ok-soft);
+    color: var(--ok);
+    font-weight: 800;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-block-start: 0.15rem;
+  }
+
+  .gform-point-item strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    margin-block-end: 0.15rem;
+  }
+
+  .gform-point-item p {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .gform-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin-block-start: 0.5rem;
+  }
+
+  .gform-btn {
+    inline-size: 100%;
+    min-block-size: 3.25rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+
+  .gform-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    padding-block: 3rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+  }
+
+  .footer-brand {
+    margin: 0;
+  }
+
+  .footer-brand strong {
+    font-family: var(--font-heading);
+    color: var(--ink);
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  .footer-links a {
+    color: var(--ink-2);
+  }
+
+  .footer-copy {
+    margin: 0;
+    inline-size: 100%;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .main-nav a:not(.nav-cta) {
+      display: none;
+    }
+
+    .pillar-head,
+    .portrait {
+      position: static;
+    }
+
+    .about {
+      grid-template-columns: 1fr;
+    }
+
+    .portrait {
+      max-inline-size: 260px;
+    }
+
+    .principles {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .pillar,
+    .about-body,
+    .products,
+    .contact-container {
+      grid-template-columns: 1fr;
+    }
+
+    .plans {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .btn {
+      padding-inline: 1.25rem;
+    }
+
+    .brand-desc {
+      display: none;
+    }
+
+    .hero-proof {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-proof > div,
+    .hero-proof > div + div {
+      padding: 1.25rem 0;
+      border-inline-start: 0;
+      border-block-end: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .hero-proof .num {
+      font-size: 2rem;
+    }
+
+    .article-list li {
+      grid-template-columns: 1fr auto;
+    }
+
+    .art-cat {
+      grid-column: 1 / -1;
+    }
+
+    .evidence thead {
+      display: none;
+    }
+
+    .evidence tr {
+      display: block;
+      padding-block: 1rem;
+      border-block-end: 1px solid var(--rule);
+    }
+
+    .evidence td {
+      display: block;
+      inline-size: auto;
+      padding: 0.15rem 0;
+      border: 0;
+    }
+  }
+</style>
