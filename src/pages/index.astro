@@ -54,6 +54,7 @@ const GOOGLE_FORM_URL =
         <a href="#about">私について</a>
         <a href="#evidence">実績</a>
         <a href="#articles">記事</a>
+        <a href="/notes">技術ノート</a>
         <a href="#contact" class="nav-cta">相談する</a>
       </nav>
     </div>
@@ -344,6 +345,13 @@ const GOOGLE_FORM_URL =
             }
           </ol>
         </details>
+
+        <div class="articles-notes-banner">
+          <p>
+            💡 QiitaにまとめるほどでもないマニアックなCLIワンライナーや泥臭い検証ログは、
+            <a href="/notes/">技術ノート（Notes） &rarr;</a> に随時ストックしています。
+          </p>
+        </div>
       </div>
     </section>
 
@@ -477,6 +485,7 @@ const GOOGLE_FORM_URL =
         <a href="#about">私について</a>
         <a href="#evidence">実績</a>
         <a href="#articles">記事</a>
+        <a href="/notes">技術ノート</a>
         <a href="#contact">相談する</a>
         <a href="https://qiita.com/akkyey" target="_blank" rel="noopener noreferrer">Qiita ↗</a>
       </nav>
@@ -1145,6 +1154,31 @@ const GOOGLE_FORM_URL =
   .article-list-compact .art-title {
     font-weight: 400;
     font-size: 0.9375rem;
+  }
+
+  .articles-notes-banner {
+    margin-block-start: 2rem;
+    padding: 1.1rem 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  .articles-notes-banner p {
+    margin: 0;
+  }
+
+  .articles-notes-banner a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .articles-notes-banner a:hover {
+    text-decoration: underline;
   }
 
   /* ---------- Plans ---------- */
