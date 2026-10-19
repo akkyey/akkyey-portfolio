@@ -80,6 +80,7 @@ const GOOGLE_FORM_URL =
         <div class="hero-actions">
           <a href="#contact" class="btn btn-primary">無料で相談する</a>
           <a href="#services" class="btn btn-text">できることを見る →</a>
+          <span class="hero-note">※ 初回ヒアリング・お見積もり無料</span>
         </div>
 
         <dl class="hero-proof">
@@ -386,6 +387,10 @@ const GOOGLE_FORM_URL =
           }
         </div>
 
+        <div class="plans-note">
+          <p>※ 各プランの具体的なお見積もりは、現在の業務フローやご要件を伺った上で<strong>無料</strong>にて作成いたします。</p>
+        </div>
+
         <div class="contact-container">
           <div class="contact-info">
             <h3>お問い合わせの流れ</h3>
@@ -402,7 +407,7 @@ const GOOGLE_FORM_URL =
               </li>
               <li>
                 <strong>お見積もり・着手</strong>
-                <span>範囲・納期・費用に合意いただいてから実装を始めます。</span>
+                <span>範囲・納期・費用に合意いただいてから実装を始めます（お見積もりまでは一切費用はかかりません）。</span>
               </li>
             </ol>
 
@@ -433,8 +438,8 @@ const GOOGLE_FORM_URL =
               <div class="gform-point-item">
                 <span class="point-icon" aria-hidden="true">✓</span>
                 <div>
-                  <strong>初回ヒアリング・技術壁打ち無料</strong>
-                  <p>「こういう自動化やデータ収集が可能か知りたい」といった要件定義前の壁打ちも歓迎です。</p>
+                  <strong>初回ヒアリング・お見積もり無料</strong>
+                  <p>「こういう自動化やデータ収集が可能か知りたい」といった壁打ちや概算見積もりも無料でお出しします。</p>
                 </div>
               </div>
               <div class="gform-point-item">
@@ -447,6 +452,7 @@ const GOOGLE_FORM_URL =
             </div>
 
             <div class="gform-cta">
+              <p class="gform-free-tag">✓ お見積もり・初回相談は無料です</p>
               <a
                 href={GOOGLE_FORM_URL}
                 target="_blank"
@@ -455,7 +461,7 @@ const GOOGLE_FORM_URL =
               >
                 Google フォームで相談する ↗
               </a>
-              <span class="gform-note">※ 新しいタブでGoogleフォームが開きます</span>
+              <span class="gform-note">※ 新しいタブでGoogleフォームが開きます（無理な営業等は一切行いません）</span>
             </div>
           </div>
         </div>
@@ -658,6 +664,12 @@ const GOOGLE_FORM_URL =
     flex-wrap: wrap;
     align-items: center;
     gap: 1.25rem 2rem;
+  }
+
+  .hero-note {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-weight: 500;
   }
 
   .hero-proof {
@@ -1140,7 +1152,26 @@ const GOOGLE_FORM_URL =
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
-    margin-block-end: clamp(3rem, 6vw, 4.5rem);
+    margin-block-end: 1.5rem;
+  }
+
+  .plans-note {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    margin-block-end: clamp(2.5rem, 5vw, 4rem);
+    padding: 0.85rem 1.25rem;
+    background: var(--surface);
+    border: 1px dashed var(--rule);
+    border-radius: var(--radius);
+  }
+
+  .plans-note p {
+    margin: 0;
+  }
+
+  .plans-note strong {
+    color: var(--accent);
   }
 
   .plan {
@@ -1378,6 +1409,19 @@ const GOOGLE_FORM_URL =
     align-items: center;
     gap: 0.6rem;
     margin-block-start: 0.5rem;
+  }
+
+  .gform-free-tag {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
   }
 
   .gform-btn {
