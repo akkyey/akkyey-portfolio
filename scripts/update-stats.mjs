@@ -10,12 +10,15 @@
  * - 取得に失敗した場合は何も書き込まず終了する。書き込みは一時ファイル経由で置き換える。
  */
 
-import { readFileSync, writeFileSync, renameSync } from 'node:fs';
+import { readFileSync, writeFileSync, renameSync, existsSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
+// 実行したフォルダに関係なく、このスクリプトの場所を基準にパスを決める
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const TOKEN_PATH = join(homedir(), '.qiita_token');
-const STATS_PATH = join(process.cwd(), 'src/data/qiita-stats.json');
+const STATS_PATH = resolve(__dirname, '../src/data/qiita-stats.json');
 const TMP_PATH = `${STATS_PATH}.tmp`;
 const PER_PAGE = 100;
 
@@ -43,6 +46,13 @@ async function fetchAllPublicItems(token) {
   return all.filter((item) => !item.private);
 }
 
+// トークンは環境変数 QIITA_TOKEN を優先し、無ければ ~/.qiita_token を読む（CI でも手元でも使える）
+function loadToken() {
+  if (process.env.QIITA_TOKEN) return process.env.QIITA_TOKEN.trim();
+  if (existsSync(TOKEN_PATH)) return readFileSync(TOKEN_PATH, 'utf-8').trim();
+  throw new Error('Qiita トークンが見つかりません（環境変数 QIITA_TOKEN または ~/.qiita_token を設定してください）');
+}
+
 function loadPreviousIds() {
   try {
     return new Set(JSON.parse(readFileSync(STATS_PATH, 'utf-8')).items.map((i) => i.itemId));
@@ -52,13 +62,7 @@ function loadPreviousIds() {
 }
 
 async function main() {
-  let token;
-  try {
-    token = readFileSync(TOKEN_PATH, 'utf-8').trim();
-  } catch {
-    console.error('❌ ~/.qiita_token が見つかりません。');
-    process.exit(1);
-  }
+  const token = loadToken();
 
   console.log('🔄 Qiita API から公開記事を取得中...');
   const publicItems = await fetchAllPublicItems(token);
