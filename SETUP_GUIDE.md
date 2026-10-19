@@ -9,7 +9,8 @@
 ```mermaid
 flowchart TD
     subgraph Local["ローカル開発環境 (/operationZ/site)"]
-        Data["データマスター\nsrc/data/portfolio.ts\n(全31記事・検索1位エビデンス)"]
+        Stats["Qiita統計JSON\nsrc/data/qiita-stats.json\n(タイトル・PV等・自動生成)"]
+        Data["データマスター\nsrc/data/portfolio.ts\n(カテゴリ・検索1位エビデンス等)"]
         Script["自動同期スクリプト\nscripts/update-stats.mjs"]
         Astro["Astro v5 (Zero-JS)\nsrc/pages/index.astro\nsrc/layouts/Layout.astro"]
         Wrangler["Cloudflare設定\nwrangler.json (assets: ./dist)"]
@@ -23,7 +24,8 @@ flowchart TD
     end
 
     Qiita -- "Bearer Token\n(~/.qiita_token)" --> Script
-    Script -- "正規表現・一時ファイルによる\nアトミック置換" --> Data
+    Script -- "JSONを一時ファイル経由で\n丸ごと書き出し" --> Stats
+    Stats --> Data
     Data --> Astro
     Astro -- "npm run build" --> Dist["静的ビルド生成物\n(dist/ - 100% Zero-JS)"]
     Wrangler --> Dist
@@ -39,7 +41,7 @@ flowchart TD
 - **言語・型付け**: TypeScript / Node.js
 - **インフラ・ホスティング**: Cloudflare Workers with Static Assets（`wrangler.json` 構成）
 - **デプロイ・版管理**: `npm run deploy` による直接エッジ配信 ＋ GitHubリポジトリ（`akkyey/akkyey-portfolio`）へのバックアップ
-- **データ更新パイプライン**: Qiita API v2（ページネーション対応・全体公開記事限定）＋ 自作同期スクリプト（`scripts/update-stats.mjs`）
+- **データ更新パイプライン**: Qiita API v2（ページネーション対応・全体公開記事限定）＋ 自作同期スクリプト（`scripts/update-stats.mjs`）→ `src/data/qiita-stats.json`
 - **お問い合わせ窓口**: Google フォーム（別タブ遷移型・ログイン不要・Gmail即時通知）
 - **アクセス制御**: `noindex, nofollow` メタタグ ＋ `robots.txt`（Twitterbotのみカードプレビュー許可、他クローラーは遮断）
 
@@ -70,13 +72,14 @@ operationZ/
     │   ├── og-image.png            # OGP画像（1200x630）
     │   └── robots.txt              # クローラー制御設定（Twitterbot許可、他Disallow: /）
     ├── scripts/
-    │   └── update-stats.mjs        # Qiita API v2 統計自動同期スクリプト（JST対応・アトミック更新）
+    │   └── update-stats.mjs        # Qiita API v2 から qiita-stats.json を生成
     └── src/
         ├── content.config.ts   # Astro v5 Content Layer設定
         ├── content/
         │   └── notes/          # 技術ノート・検証メモMarkdown（*.md）
         ├── data/
-        │   └── portfolio.ts    # 全31記事・検索1位エビデンス・プラン定義マスター
+        │   ├── portfolio.ts    # 記事のカテゴリ等・検索1位エビデンス・プラン定義（手で編集）
+        │   └── qiita-stats.json # Qiita公開記事のタイトル・PV等（update-statsが自動生成・手で編集しない）
         ├── layouts/
         │   └── Layout.astro    # 共通レイアウト・SEO・JSON-LD構造化データ
         └── pages/
@@ -91,8 +94,12 @@ operationZ/
 ## 3. 実装詳細と主要コンポーネント
 
 ### 3.1. データマスター (`src/data/portfolio.ts`)
-全31記事のメタデータ（タイトル、URL、PV、いいね、ストック、タグ、公開日、検索上位バッジ）、11領域の実測Google検索1位クエリ、サービスメニュー（対象・期間目安）、Zenn Book企画を一元管理。
-画面の表示内容はすべてこのファイルを単一の真実源（Single Source of Truth）として参照しています。
+データは2つのファイルに分けています。
+
+- **`qiita-stats.json`（自動生成）**: Qiita の公開記事のタイトル・URL・PV・いいね・ストック・タグ・日付。`npm run update-stats` が丸ごと書き出すので、手で編集しません。
+- **`portfolio.ts`（手で編集）**: 記事ごとの独自情報 `ARTICLE_META`（カテゴリ・検索上位バッジ・注目フラグ）、11領域の実測Google検索1位クエリ、サービスメニュー（対象・期間目安）、Zenn Book企画。
+
+`ALL_ARTICLES` はビルド時に JSON と `ARTICLE_META` を記事IDで合体して作り、`SITE_STATS` の合計値も一覧から計算します。そのため「総数と一覧の件数」「合計と個別の和」は構造上ずれません。
 
 ### 3.2. ゼロJSアーキテクチャ (`src/pages/index.astro`)
 - **クライアントJSを完全排除**:
@@ -108,10 +115,11 @@ operationZ/
 
 ### 3.4. Qiita統計自動同期パイプライン (`scripts/update-stats.mjs`)
 - ローカルの認証トークン（`~/.qiita_token`）を読み込み、Qiita API v2 から認証ヘッダー付きで全件取得（100件以上のページネーション対応）。
-- `!item.private` フィルタにより、限定共有記事や下書きを除外し、公開記事のみを対象に集計。
-- 未登録の新規公開記事があれば `ALL_ARTICLES` に自動追記し、全体統計 `totalArticles` と個別記事配列の件数を常に完全一致させる。
-- 日付を日本時間（JST）で `YYYY-MM-DD` 形式に整形して `asOfDate` を更新。
-- 一時ファイル（`.tmp`）へ書き込んだ後に `renameSync` によるアトミック置換を実行し、更新途中のファイル破損を防止。
+- `!item.private` フィルタにより限定共有記事を除外し、公開記事のみを対象にする（下書きは API から返らない）。
+- 結果を `src/data/qiita-stats.json` に丸ごと書き出す（一時ファイルに書いてから `renameSync` で置き換え）。TypeScript のソースは書き換えない。
+- 基準日 `asOfDate` は日本時間（JST）の `YYYY-MM-DD`。
+- API エラー時は何も書き込まずに終了する。
+- 前回から増えた記事・消えた記事を表示する。**新しい記事が出たら `portfolio.ts` の `ARTICLE_META` にカテゴリを1行追加**する（未登録でもビルドは通り、警告が出る）。
 
 ---
 
@@ -151,7 +159,7 @@ operationZ/
 cd /Users/irom/Documents/operationZ/site
 npm run update-stats
 npm run deploy
-git add src/data/portfolio.ts
+git add src/data/qiita-stats.json src/data/portfolio.ts
 git commit -m "chore: sync latest qiita stats"
 git push origin main
 ```
