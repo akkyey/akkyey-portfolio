@@ -8,6 +8,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy",
     "update-stats": "node scripts/update-stats.mjs",
     "astro": "astro"
   },
