@@ -18,30 +18,30 @@ flowchart TD
     subgraph External["外部連携サービス"]
         Qiita["Qiita API v2\n(認証付きアイテム取得)"]
         GForm["Googleフォーム\n(別タブお問い合わせ受付)"]
-        GitHub["GitHub リポジトリ\nakkyey/akkyey-portfolio"]
+        GitHub["GitHub リポジトリ\nakkyey/akkyey-portfolio\n(版管理・バックアップ)"]
         CF["Cloudflare Workers\n(グローバルエッジ配信)"]
     end
 
     Qiita -- "Bearer Token\n(~/.qiita_token)" --> Script
-    Script -- "正規表現による\nアトミック置換" --> Data
+    Script -- "正規表現・一時ファイルによる\nアトミック置換" --> Data
     Data --> Astro
     Astro -- "npm run build" --> Dist["静的ビルド生成物\n(dist/ - 100% Zero-JS)"]
     Wrangler --> Dist
 
+    Local -- "npm run deploy (wrangler)" --> CF
     Local -- "git push origin main" --> GitHub
-    GitHub -- "Webhook CI/CD" --> CF
     CF -- "https://akkyey-portfolio.akkyey.workers.dev" --> Client["閲覧者・発注クライアント"]
     Client -- "ご相談送信" --> GForm
 ```
 
 ### 技術スタック
-- **フレームワーク**: Astro v5（静的ビルド・ゼロクライアントJS・Lighthouse 100点設計）
+- **フレームワーク**: Astro v5（静的ビルド・Google Fonts以外の外部スクリプト読み込みを排除したZero-JS設計）
 - **言語・型付け**: TypeScript / Node.js
 - **インフラ・ホスティング**: Cloudflare Workers with Static Assets（`wrangler.json` 構成）
-- **CI/CD**: GitHub リポジトリ（`akkyey/akkyey-portfolio`）連携によるプッシュ時自動デプロイ
-- **データ更新パイプライン**: Qiita API v2 ＋ 自作同期スクリプト（`scripts/update-stats.mjs`）
+- **デプロイ・版管理**: `npm run deploy` による直接エッジ配信 ＋ GitHubリポジトリ（`akkyey/akkyey-portfolio`）へのバックアップ
+- **データ更新パイプライン**: Qiita API v2（ページネーション対応・全体公開記事限定）＋ 自作同期スクリプト（`scripts/update-stats.mjs`）
 - **お問い合わせ窓口**: Google フォーム（別タブ遷移型・ログイン不要・Gmail即時通知）
-- **アクセス制御**: `noindex, nofollow` メタタグ ＋ `robots.txt`（ステージング限定公開）
+- **アクセス制御**: `noindex, nofollow` メタタグ ＋ `robots.txt`（Twitterbotのみカードプレビュー許可、他クローラーは遮断）
 
 ---
 
@@ -63,14 +63,14 @@ operationZ/
     ├── gas-webhook/
     │   └── Code.gs             # （参考用）スプレッドシート連携用GASコード
     ├── public/
-    │   ├── akkyey-avatar-96.webp   # ヘッダー・ファビコン用アバター
+    │   ├── akkyey-avatar-96.webp   # ヘッダー・プロフィール表示用アバター
     │   ├── akkyey-portrait-480.webp
     │   ├── akkyey-portrait-960.webp
-    │   ├── favicon.svg             # ノード型SVGファビコン
+    │   ├── favicon.svg             # 六角形にアルファベットAを配置したSVGファビコン
     │   ├── og-image.png            # OGP画像（1200x630）
-    │   └── robots.txt              # クローラー拒否設定（Disallow: /）
+    │   └── robots.txt              # クローラー制御設定（Twitterbot許可、他Disallow: /）
     ├── scripts/
-    │   └── update-stats.mjs        # Qiita API v2 統計自動同期スクリプト
+    │   └── update-stats.mjs        # Qiita API v2 統計自動同期スクリプト（JST対応・アトミック更新）
     └── src/
         ├── content.config.ts   # Astro v5 Content Layer設定
         ├── content/
@@ -91,15 +91,14 @@ operationZ/
 ## 3. 実装詳細と主要コンポーネント
 
 ### 3.1. データマスター (`src/data/portfolio.ts`)
-全31記事のメタデータ（タイトル、URL、PV、いいね、ストック、タグ、公開日、検索上位バッジ）、11領域の実測Google検索1位クエリ、サービスメニュー（料金・期間目安）、Zenn Book企画を一元管理。
+全31記事のメタデータ（タイトル、URL、PV、いいね、ストック、タグ、公開日、検索上位バッジ）、11領域の実測Google検索1位クエリ、サービスメニュー（対象・期間目安）、Zenn Book企画を一元管理。
 画面の表示内容はすべてこのファイルを単一の真実源（Single Source of Truth）として参照しています。
 
 ### 3.2. ゼロJSアーキテクチャ (`src/pages/index.astro`)
 - **クライアントJSを完全排除**:
   - ヒーローセクション、3つの専門領域、検索1位エビデンス表、書籍・OSS一覧、全31記事アーカイブ、サービスプランまでをピュアHTML/CSSでレンダリング。
   - お問い合わせフォームをGoogleフォーム別タブ型に集約したことで、バリデーションスクリプト等のクライアントJSも完全不要化（0バイト）。
-- **Lighthouse・Core Web Vitals最適化**:
-  - 初回描画負荷を下げるため、ファーストビュー外の重いセクションに `content-visibility: auto` と `contain-intrinsic-size` を適用。
+  - Google Fonts以外の外部スクリプト読み込みが一切ないため、エッジ配信と合わせて高速な初期表示が実現されています。
 
 ### 3.3. Googleフォーム連携
 - **URL**: `https://docs.google.com/forms/d/e/1FAIpQLScNXZCqWAvDhvRGUUxNFqIOgAePvuUZ9DCsIjOkxFcn6ia6IA/viewform`
@@ -108,9 +107,11 @@ operationZ/
   - 「新しい回答についてのメール通知を受け取る」をONにして、Gmailに即時通知されるように構成。
 
 ### 3.4. Qiita統計自動同期パイプライン (`scripts/update-stats.mjs`)
-- ローカルの認証トークン（`~/.qiita_token`）を読み込み、Qiita API v2 の `/api/v2/authenticated_user/items?per_page=100` から最新の `page_views_count`、`likes_count`、`stocks_count` を取得。
-- `src/data/portfolio.ts` 内の `SITE_STATS` および `ALL_ARTICLES` の数値を正規表現でアトミックに書き換え。
-- コマンド `npm run update-stats` で約1.5秒で全同期完了。
+- ローカルの認証トークン（`~/.qiita_token`）を読み込み、Qiita API v2 から認証ヘッダー付きで全件取得（100件以上のページネーション対応）。
+- `!item.private` フィルタにより、限定共有記事や下書きを除外し、公開記事のみを対象に集計。
+- 未登録の新規公開記事があれば `ALL_ARTICLES` に自動追記し、全体統計 `totalArticles` と個別記事配列の件数を常に完全一致させる。
+- 日付を日本時間（JST）で `YYYY-MM-DD` 形式に整形して `asOfDate` を更新。
+- 一時ファイル（`.tmp`）へ書き込んだ後に `renameSync` によるアトミック置換を実行し、更新途中のファイル破損を防止。
 
 ---
 
@@ -132,9 +133,12 @@ operationZ/
 ```
 
 ### 4.2. 限定公開（ステージング防御）設定
-一般公開前のプレビュー期間中に検索エンジンへインデックスされるのを防ぐため、二重の防御を行っています：
+一般公開前のプレビュー期間中に検索エンジンへインデックスされるのを防ぐため、以下の制御を行っています：
 1. `src/layouts/Layout.astro` に `<meta name="robots" content="noindex, nofollow" />` を配置。
-2. `public/robots.txt` に `User-agent: *` / `Disallow: /` を配置。
+2. `public/robots.txt` にて `User-agent: *` に対する `Disallow: /` を設定。
+3. **X（Twitter）カード用の例外設定**:  
+   Twitterbotは `robots.txt` の `Disallow: /` を厳格に遵守するため、`User-agent: Twitterbot` のみ `Allow: /` を明示してサムネイルカードが表示されるように設定しています。
+   > **⚠️ 注意**: 限定公開中は、Twitterbot以外のクローラー（Facebook、Slack、LINE、Discord等）ではリンクプレビューのカード展開が行われない場合があります。
 
 ---
 
@@ -146,12 +150,12 @@ operationZ/
 ```bash
 cd /Users/irom/Documents/operationZ/site
 npm run update-stats
-npm run build
+npm run deploy
 git add src/data/portfolio.ts
 git commit -m "chore: sync latest qiita stats"
 git push origin main
 ```
-→ `git push` 後、約1分で本番サイト（Cloudflare）に最新の数値が自動反映されます。
+→ 統計更新後、`npm run deploy` で本番へ即時反映され、`git push` で最新データがGitHubにバックアップされます。
 
 ### 5.2. サイトの文言修正または技術ノートの追加・編集
 ポートフォリオ本体の修正も、技術ノート（`/notes`）の追加も、**完全に同一のワンコマンド運用**です。
@@ -178,8 +182,15 @@ git push origin main
 ### 5.3. 正式オープン（検索エンジンへの一般公開）に切り替える時
 準備が整い、Google検索からの流入を受け入れたい時は以下の2箇所を変更します：
 1. `src/layouts/Layout.astro` の `<meta name="robots" content="noindex, nofollow" />` を削除（または `index, follow` に変更）。
-2. `public/robots.txt` の `Disallow: /` を削除（`Allow: /` または空にする）。
-3. コミットしてプッシュするだけで、世界中の検索エンジンへのインデックスが開始されます。
+2. `public/robots.txt` の `Disallow: /` を削除（`Allow: /` に統一）。
+3. デプロイおよびコミット・プッシュを実行：
+   ```bash
+   npm run deploy
+   git add .
+   git commit -m "feat: release site publicly"
+   git push origin main
+   ```
+   これで世界中の検索エンジンへのインデックスが開始され、SlackやFacebookなど全プラットフォームでのリンクプレビューも有効になります。
 
 ---
 
