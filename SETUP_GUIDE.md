@@ -154,24 +154,26 @@ git push origin main
 → `git push` 後、約1分で本番サイト（Cloudflare）に最新の数値が自動反映されます。
 
 ### 5.2. サイトの文言修正または技術ノートの追加・編集
-ポートフォリオ本体の修正も、技術ノート（`/notes`）の追加も、**完全に同一のワンコマンド運用**です：
+ポートフォリオ本体の修正も、技術ノート（`/notes`）の追加も、**完全に同一のワンコマンド運用**です。
 
-1. **修正・追加**:
-   - トップページの修正: `src/pages/index.astro`
-   - 技術ノートの追加: `src/content/notes/新しい記事名.md`
-2. **本番デプロイ（一撃コマンド）**:
-   ```bash
-   cd site
-   npm run deploy
-   ```
-   → ビルドからCloudflare Workersへの配信までワンステップで完了します。
-3. **GitHubへのバックアップ保存**:
-   ```bash
-   git add .
-   git commit -m "feat: 記事追加または文言修正"
-   git push origin main
-   ```
-   ※もちろん、AI（Antigravity）に「このメモをノートに追加して」「トップページのここを変えて」と伝えていただければ、ファイル作成・ビルド・デプロイ・プッシュまで全自動で完了します。
+#### コマンドを実行する場所（作業ディレクトリ）
+コマンドは必ず **`site` フォルダ**（`/Users/irom/Documents/operationZ/site`）の中で実行します。
+
+```bash
+# 1. サイトの作業フォルダへ移動（ターミナル起動時）
+cd /Users/irom/Documents/operationZ/site
+
+# 2. ビルド＆本番デプロイを一発実行
+npm run deploy
+
+# 3. 変更をGitHubへバックアップ保存
+git add .
+git commit -m "feat: 記事追加または文言修正"
+git push origin main
+```
+
+> **💡 最も簡単な方法（AIチャットへの指示出し）**  
+> ターミナルを開いてコマンドを打たなくても、AI（Antigravity）に「この記事をノートに追加して本番デプロイして」「トップページのここを変えて反映して」と一言チャットで伝えるだけで、ファイル作成からビルド・Cloudflare公開・Git保存まで全自動で代行されます。
 
 ### 5.3. 正式オープン（検索エンジンへの一般公開）に切り替える時
 準備が整い、Google検索からの流入を受け入れたい時は以下の2箇所を変更します：
