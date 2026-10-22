@@ -79,9 +79,9 @@ const GOOGLE_FORM_URL =
         </p>
 
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">無料で相談する</a>
+          <a href="#contact" class="btn btn-primary">お問い合わせ・技術相談</a>
           <a href="#services" class="btn btn-text">できることを見る →</a>
-          <span class="hero-note">※ 初回ヒアリング・お見積もり無料</span>
+          <span class="hero-note">※ 技術相談・情報交換はお気軽にどうぞ</span>
         </div>
 
         <dl class="hero-proof">
@@ -359,61 +359,34 @@ const GOOGLE_FORM_URL =
     <section id="contact" class="section section-tint">
       <div class="container">
         <header class="section-header">
-          <p class="section-kicker">ご相談</p>
-          <h2 class="section-title">まずは、困っていることをお聞かせください</h2>
+          <p class="section-kicker">コンタクト</p>
+          <h2 class="section-title">お問い合わせ・ご連絡</h2>
           <p class="section-desc">
-            要件が固まっていなくても大丈夫です。「これは自動化できる？」「このエラーを直したい」といった段階からお受けしています。
+            技術記事やコードへのご感想・ご質問、アーキテクチャの壁打ちや情報交換など、お気軽にメッセージをお寄せください。
           </p>
         </header>
 
-        <div class="plans">
-          {
-            SERVICE_PLANS.map((plan) => (
-              <article class="plan">
-                <p class="plan-badge">{plan.badge}</p>
-                <h3 class="plan-title">{plan.title}</h3>
-                <p class="plan-target">{plan.target}</p>
-                <ul class="plan-deliverables">
-                  {plan.deliverables.map((d) => (
-                    <li>{d}</li>
-                  ))}
-                </ul>
-                <dl class="plan-meta">
-                  {plan.priceRange && (
-                    <div>
-                      <dt>目安費用</dt>
-                      <dd>{plan.priceRange}</dd>
-                    </div>
-                  )}
-                  <div>
-                    <dt>想定期間</dt>
-                    <dd>{plan.duration}</dd>
-                  </div>
-                </dl>
-              </article>
-            ))
-          }
-        </div>
-
         <div class="contact-container">
           <div class="contact-info">
-            <h3>お問い合わせの流れ</h3>
-            <p>通常1〜2営業日以内にご返信します。</p>
+            <h3>受付内容</h3>
+            <p>
+              下記のようなトピックのご連絡を受け付けています。お気軽にお送りください。
+            </p>
 
-            <ol class="process-steps">
+            <ul class="contact-topics">
               <li>
-                <strong>フォームからご連絡</strong>
-                <span>ご相談の種類と、いまの困りごとを簡単にご記入ください。</span>
+                <strong>技術的なご質問・フィードバック</strong>
+                <span>Qiitaや技術ノートで公開しているコード・設計についてのご質問や感想</span>
               </li>
               <li>
-                <strong>ヒアリング（30分程度）</strong>
-                <span>テキストまたはオンラインで課題を整理し、構成をご提案します。</span>
+                <strong>技術壁打ち・情報交換</strong>
+                <span>データ基盤や業務自動化（GAS / Python / Cloudflare）に関する意見交換・壁打ち</span>
               </li>
               <li>
-                <strong>お見積もり・着手</strong>
-                <span>範囲・納期・費用に合意いただいてから実装を始めます。</span>
+                <strong>執筆・情報発信のご連絡</strong>
+                <span>技術記事の執筆や共同検証、知見の共有に関するご連絡</span>
               </li>
-            </ol>
+            </ul>
 
             <p class="contact-alt">
               Qiita（<a href="https://qiita.com/akkyey" target="_blank" rel="noopener noreferrer">@akkyey</a>）経由でのご連絡も可能です。
@@ -422,48 +395,22 @@ const GOOGLE_FORM_URL =
           <div class="contact-form-wrapper google-form-card">
             <div class="gform-badge-row">
               <span class="gform-badge">Google フォーム受付</span>
-              <span class="gform-privacy">ログイン不要・秘密保持</span>
+              <span class="gform-privacy">Googleアカウント不要</span>
             </div>
 
-            <h4 class="gform-title">無料ご相談・お問い合わせ</h4>
+            <h4 class="gform-title">メッセージフォーム</h4>
             <p class="gform-lead">
-              開発支援・業務自動化・技術顧問・有料記事やテンプレートに関するご質問など、お気軽にお送りください。<br />
-              Googleアカウントをお持ちでない方でもそのままご記入いただけます。
+              下記ボタンから Google フォームが開きます。お名前（ニックネーム可）とご連絡先、メッセージをご記入のうえ送信してください。
             </p>
 
-            <div class="gform-points">
-              <div class="gform-point-item">
-                <span class="point-icon" aria-hidden="true">✓</span>
-                <div>
-                  <strong>通常1〜2営業日以内にご返信</strong>
-                  <p>記載いただいたメールアドレス宛に、一次回答およびヒアリング日程をご案内します。</p>
-                </div>
-              </div>
-              <div class="gform-point-item">
-                <span class="point-icon" aria-hidden="true">✓</span>
-                <div>
-                  <strong>初回ヒアリング・技術壁打ち対応</strong>
-                  <p>「こういう自動化やデータ収集が可能か知りたい」といった要件定義前の壁打ちも歓迎です。</p>
-                </div>
-              </div>
-              <div class="gform-point-item">
-                <span class="point-icon" aria-hidden="true">✓</span>
-                <div>
-                  <strong>柔軟な進め方</strong>
-                  <p>テキストベースのやり取り、またはオンラインMTG（30分程度）で進められます。</p>
-                </div>
-              </div>
-            </div>
-
             <div class="gform-cta">
-              <p class="gform-free-tag">✓ お見積もり・初回相談は無料です</p>
               <a
                 href={GOOGLE_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="btn btn-primary btn-large gform-btn"
               >
-                Google フォームで相談する ↗
+                Google フォームを開く ↗
               </a>
               <span class="gform-note">※ 新しいタブでGoogleフォームが開きます</span>
             </div>
@@ -1269,41 +1216,32 @@ const GOOGLE_FORM_URL =
     color: var(--ink-2);
   }
 
-  .process-steps {
+  .contact-topics {
     list-style: none;
-    counter-reset: step;
     margin: 1.75rem 0;
     padding: 0;
-  }
-
-  .process-steps li {
-    counter-increment: step;
-    position: relative;
-    padding: 0 0 1.5rem 2.75rem;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 1rem;
   }
 
-  .process-steps li::before {
-    content: counter(step);
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: 0;
-    inline-size: 1.75rem;
-    block-size: 1.75rem;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: var(--accent);
-    color: var(--on-accent);
-    font-size: 0.875rem;
-    font-weight: 700;
+  .contact-topics li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--accent);
   }
 
-  .process-steps span {
+  .contact-topics strong {
     font-size: 0.9375rem;
+    color: var(--ink);
+  }
+
+  .contact-topics span {
+    font-size: 0.875rem;
     color: var(--ink-2);
+    line-height: 1.5;
   }
 
   .contact-alt {
