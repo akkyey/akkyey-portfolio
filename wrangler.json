@@ -4,5 +4,11 @@
   "compatibility_date": "2024-09-23",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "akkyey.dev",
+      "custom_domain": true
+    }
+  ]
 }

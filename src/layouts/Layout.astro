@@ -2,12 +2,17 @@
 interface Props {
   title?: string;
   description?: string;
+  /** 正規 URL。省略時は akkyey.dev 上のこのページ自身（Qiita と同テーマのノートは Qiita 記事を指定する） */
+  canonical?: string;
 }
 
 const {
-  title = 'akkyey | 止まらない仕組みづくり — データ基盤・業務自動化・AI導入支援',
-  description = 'API制限で止まる夜間バッチ、終わらない手作業の集計、思いどおりに動かないAI。プロジェクトマネージャーとして現場を回してきたエンジニア akkyey が、「止まる前提」で設計し、壊れても自分で立ち直る仕組みに作り替えます。',
+  title = 'akkyey | 止まらない仕組みづくり — データ基盤・業務自動化・AI活用',
+  description = 'API制限で止まる夜間バッチ、終わらない手作業の集計、思いどおりに動かないAI。プロジェクトマネージャーとして現場を回してきたエンジニア akkyey が、「止まる前提」で設計し、壊れても自分で立ち直る仕組みをつくり、その知見を発信しています。',
+  canonical,
 } = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
 const ogImage = new URL('/og-image.png', Astro.site).href;
 
@@ -47,8 +52,8 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <!-- 検索エンジンのインデックス除外（限定公開・プレビュー設定） -->
-    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap.xml" />
     <meta name="theme-color" content="#f7f5f0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

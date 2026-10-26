@@ -32,7 +32,7 @@ flowchart TD
 
     Local -- "npm run deploy (wrangler)" --> CF
     Local -- "git push origin main" --> GitHub
-    CF -- "https://akkyey-portfolio.akkyey.workers.dev" --> Client["閲覧者・発注クライアント"]
+    CF -- "https://akkyey.dev" --> Client["閲覧者・発注クライアント"]
     Client -- "ご相談送信" --> GForm
 ```
 
@@ -43,7 +43,7 @@ flowchart TD
 - **デプロイ・版管理**: `npm run deploy` による直接エッジ配信 ＋ GitHubリポジトリ（`akkyey/akkyey-portfolio`）へのバックアップ
 - **データ更新パイプライン**: Qiita API v2（ページネーション対応・全体公開記事限定）＋ 自作同期スクリプト（`scripts/update-stats.mjs`）→ `src/data/qiita-stats.json`
 - **お問い合わせ窓口**: Google フォーム（別タブ遷移型・ログイン不要・Gmail即時通知）
-- **アクセス制御**: `noindex, nofollow` メタタグ ＋ `robots.txt`（Twitterbotのみカードプレビュー許可、他クローラーは遮断）
+- **検索エンジン対応**: 一般公開（`robots.txt` で全許可）＋ 自作サイトマップ `/sitemap.xml` ＋ 全ページに正規 URL（`canonical`）。Qiita と同テーマのノートは Qiita 記事を正規 URL に指定
 
 ---
 
@@ -70,13 +70,13 @@ operationZ/
     │   ├── akkyey-portrait-960.webp
     │   ├── favicon.svg             # 六角形にアルファベットAを配置したSVGファビコン
     │   ├── og-image.png            # OGP画像（1200x630）
-    │   └── robots.txt              # クローラー制御設定（Twitterbot許可、他Disallow: /）
+    │   └── robots.txt              # 全クローラー許可＋サイトマップの場所
     ├── scripts/
     │   └── update-stats.mjs        # Qiita API v2 から qiita-stats.json を生成
     └── src/
         ├── content.config.ts   # Astro v5 Content Layer設定
         ├── content/
-        │   └── notes/          # 技術ノート・検証メモMarkdown（*.md）
+        │   └── notes/          # 技術ノート・検証メモMarkdown（*.md）。Qiita と同テーマなら frontmatter に qiitaUrl を書く
         ├── data/
         │   ├── portfolio.ts    # 記事のカテゴリ等・検索1位エビデンス・プラン定義（手で編集）
         │   └── qiita-stats.json # Qiita公開記事のタイトル・PV等（update-statsが自動生成・手で編集しない）
@@ -86,7 +86,8 @@ operationZ/
             ├── index.astro     # メインページ（全セクション構成・Zero-JS）
             └── notes/
                 ├── index.astro # 技術ノート一覧ページ
-                └── [...slug].astro # 技術ノート個別記事ページ
+                └── [...slug].astro # 技術ノート個別記事ページ（qiitaUrl があれば canonical と Qiita 案内リンクを出力）
+            └── sitemap.xml.ts  # サイトマップ生成（下書きと qiitaUrl 付きノートは除外）
 ```
 
 ---
@@ -136,17 +137,25 @@ operationZ/
   "compatibility_date": "2024-09-23",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "routes": [
+    { "pattern": "akkyey.dev", "custom_domain": true }
+  ]
 }
 ```
 
-### 4.2. 限定公開（ステージング防御）設定
-一般公開前のプレビュー期間中に検索エンジンへインデックスされるのを防ぐため、以下の制御を行っています：
-1. `src/layouts/Layout.astro` に `<meta name="robots" content="noindex, nofollow" />` を配置。
-2. `public/robots.txt` にて `User-agent: *` に対する `Disallow: /` を設定。
-3. **X（Twitter）カード用の例外設定**:  
-   Twitterbotは `robots.txt` の `Disallow: /` を厳格に遵守するため、`User-agent: Twitterbot` のみ `Allow: /` を明示してサムネイルカードが表示されるように設定しています。
-   > **⚠️ 注意**: 限定公開中は、Twitterbot以外のクローラー（Facebook、Slack、LINE、Discord等）ではリンクプレビューのカード展開が行われない場合があります。
+`routes` の `custom_domain: true` により、`npm run deploy` 時に独自ドメイン `akkyey.dev`（Cloudflare Registrar で取得）が Worker に自動で紐付き、証明書も自動発行されます。ドメインを変える場合は、ここと `astro.config.mjs` の `site` の2か所を変更し、OGP 画像（`public/og-image.png`）内の URL 表記も作り直します。
+
+### 4.2. 検索エンジン向けの設定（一般公開）
+- `public/robots.txt`: 全クローラーを許可し、サイトマップの場所（`https://akkyey.dev/sitemap.xml`）を記載。
+- `src/pages/sitemap.xml.ts`: ビルド時に `/sitemap.xml` を生成。下書き（`draft: true`）と、Qiita を正規 URL にしているノート（`qiitaUrl` あり）は含めない。外部パッケージは使っていない。
+- `src/layouts/Layout.astro`: 全ページに `<link rel="canonical">` を出力。既定は `akkyey.dev` 上のそのページ自身。旧アドレス（workers.dev）で見られても、評価は `akkyey.dev` に集まる。
+- **Google Search Console**: `akkyey.dev` をドメインプロパティとして登録し、サイトマップ `https://akkyey.dev/sitemap.xml` を送信済みにしておく（登録・送信は Google アカウントで手作業）。
+
+### 4.3. メール（`contact@akkyey.dev`）
+- Cloudflare Email Routing で `contact@akkyey.dev` 宛てのメールを Gmail に転送（無料・受信のみ）。MX / SPF / DKIM のレコードは Email Routing が自動で追加。
+- Gmail 側で「To: contact@akkyey.dev → 迷惑メールにしない」のフィルタを設定（新しいドメインからの転送は最初、迷惑メールに入りやすいため）。
+- 返信は Gmail アドレスから行う。独自ドメインで送信したくなったら Google Workspace に移行する（その際は MX レコードを Google 向けに付け替える）。
 
 ---
 
@@ -187,24 +196,36 @@ git push origin main
 > **💡 最も簡単な方法（AIチャットへの指示出し）**  
 > ターミナルを開いてコマンドを打たなくても、AI（Antigravity）に「この記事をノートに追加して本番デプロイして」「トップページのここを変えて反映して」と一言チャットで伝えるだけで、ファイル作成からビルド・Cloudflare公開・Git保存まで全自動で代行されます。
 
-### 5.3. 正式オープン（検索エンジンへの一般公開）に切り替える時
-準備が整い、Google検索からの流入を受け入れたい時は以下の2箇所を変更します：
-1. `src/layouts/Layout.astro` の `<meta name="robots" content="noindex, nofollow" />` を削除（または `index, follow` に変更）。
-2. `public/robots.txt` の `Disallow: /` を削除（`Allow: /` に統一）。
-3. デプロイおよびコミット・プッシュを実行：
-   ```bash
-   npm run deploy
-   git add .
-   git commit -m "feat: release site publicly"
-   git push origin main
+### 5.3. 技術ノートを追加するときのルール（検索で Qiita 記事と競合させない）
+
+Qiita と同じテーマのページが2つあると、Google はどちらか一方だけを検索結果に出そうとします。今上位にいる Qiita 記事がノートに置き換わって順位を落とさないよう、**ノートを書いたら次を確認します**。
+
+1. **Qiita に同じテーマの記事があるか確認する**
+2. **あれば、ノートの frontmatter に `qiitaUrl` を書く**
+   ```markdown
+   ---
+   title: "..."
+   pubDate: 2026-10-18
+   description: "..."
+   tags: ["..."]
+   qiitaUrl: "https://qiita.com/akkyey/items/xxxxxxxx"
+   ---
    ```
-   これで世界中の検索エンジンへのインデックスが開始され、SlackやFacebookなど全プラットフォームでのリンクプレビューも有効になります。
+   これだけで、次の3つが自動で行われます。
+   - ページの `canonical` が Qiita 記事を指す（検索の評価は Qiita に集まり、ノートは基本的に検索結果に出なくなる）
+   - 本文の末尾に「Qiita で読む」の案内リンクが付く
+   - `/sitemap.xml` から外れる
+3. **Qiita にない、ノートだけの内容なら何も書かない**（`akkyey.dev` のページとして検索に出る）
+
+迷ったら付けておく、で問題ありません。書き忘れてもサイトは壊れず、検索で競合する可能性が残るだけです。
+
+> 本文中に Qiita 記事へのリンクを張るだけでは、Google にとっては「関連ページへのリンク」に過ぎず、競合は避けられません。`qiitaUrl`（canonical）とセットで使います。
 
 ---
 
 ## 6. リポジトリ・本番URL情報一覧
 
-- **本番サイトURL**: [https://akkyey-portfolio.akkyey.workers.dev/](https://akkyey-portfolio.akkyey.workers.dev/)
+- **本番サイトURL**: [https://akkyey.dev/](https://akkyey.dev/)（旧: https://akkyey-portfolio.akkyey.workers.dev/）
 - **GitHubリポジトリ**: [https://github.com/akkyey/akkyey-portfolio](https://github.com/akkyey/akkyey-portfolio)
 - **お問い合わせGoogleフォーム**: [https://docs.google.com/forms/d/e/1FAIpQLScNXZCqWAvDhvRGUUxNFqIOgAePvuUZ9DCsIjOkxFcn6ia6IA/viewform](https://docs.google.com/forms/d/e/1FAIpQLScNXZCqWAvDhvRGUUxNFqIOgAePvuUZ9DCsIjOkxFcn6ia6IA/viewform)
 - **Qiita公式プロフィール**: [https://qiita.com/akkyey](https://qiita.com/akkyey)

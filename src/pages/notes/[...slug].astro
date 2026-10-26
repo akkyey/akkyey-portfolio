@@ -24,6 +24,7 @@ const formatDate = (d: Date) => {
 <Layout
   title={`${note.data.title} | akkyey 技術ノート`}
   description={note.data.description}
+  canonical={note.data.qiitaUrl}
 >
   <header class="site-header">
     <div class="container header-inner">
@@ -41,10 +42,10 @@ const formatDate = (d: Date) => {
 
       <nav class="main-nav" aria-label="主要ナビゲーション">
         <a href="/">トップ</a>
-        <a href="/#services">できること</a>
+        <a href="/#services">取り組み</a>
         <a href="/#articles">Qiita記事</a>
         <a href="/notes" class="active">技術ノート</a>
-        <a href="/#contact" class="nav-cta">相談する</a>
+        <a href="/#contact" class="nav-cta">お問い合わせ</a>
       </nav>
     </div>
   </header>
@@ -92,6 +93,15 @@ const formatDate = (d: Date) => {
           <Content />
         </div>
 
+        {
+          note.data.qiitaUrl && (
+            <p class="qiita-ref">
+              このノートの詳しい解説は、Qiita の記事にまとめています：
+              <a href={note.data.qiitaUrl} target="_blank" rel="noopener noreferrer">Qiita で読む ↗</a>
+            </p>
+          )
+        }
+
         <footer class="article-footer">
           <div class="author-card">
             <img
@@ -104,7 +114,7 @@ const formatDate = (d: Date) => {
             <div class="author-info">
               <strong class="author-name">akkyey（あっきい）</strong>
               <p class="author-bio">
-                プロジェクトマネージャー視点で現場を回すデータエンジニア。「止まる前提」で設計し、API制限やエラーでも自分で立ち直る仕組みを作ります。
+                プロジェクトマネージャー視点で現場を回すデータエンジニア。「止まる前提」で設計し、API制限やエラーでも自分で立ち直る仕組みづくりの知見を、記事やノートで発信しています。
               </p>
               <div class="author-actions">
                 <a href="/#contact" class="btn btn-primary btn-small">
@@ -128,7 +138,7 @@ const formatDate = (d: Date) => {
       </p>
       <nav class="footer-nav" aria-label="フッターナビゲーション">
         <a href="/">トップ</a>
-        <a href="/#services">できること</a>
+        <a href="/#services">取り組み</a>
         <a href="/#articles">記事</a>
         <a href="/notes">技術ノート</a>
         <a href="/#contact">お問い合わせ</a>
@@ -454,6 +464,9 @@ const formatDate = (d: Date) => {
   }
 
   @media (max-width: 640px) {
+    .main-nav a:not(.nav-cta) {
+      display: none;
+    }
     .brand-desc {
       display: none;
     }
@@ -465,5 +478,19 @@ const formatDate = (d: Date) => {
     .main-nav {
       gap: 0.85rem;
     }
+  }
+
+  .qiita-ref {
+    margin: 2rem 0 0;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: var(--radius-sm);
+    font-size: 0.9375rem;
+  }
+
+  .qiita-ref a {
+    font-weight: 700;
+    margin-inline-start: 0.25rem;
   }
 </style>

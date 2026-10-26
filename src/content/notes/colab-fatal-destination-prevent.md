@@ -4,6 +4,7 @@ pubDate: 2026-10-18
 description: "Google Colabのノートブックを再実行した際にGitクローンで毎回停止するのを防ぐワンライナーパターン。"
 tags: ["GoogleColab", "Git", "Bash"]
 draft: false
+qiitaUrl: "https://qiita.com/akkyey/items/1214793c2c384b81fe63"
 ---
 
 Google Colaboratory で GitHub のリポジトリをクローンして実行するスクリプトを共有していると、ユーザーが「すべてのセルを実行」を2回押した際に以下のエラーで止まる問題が多発します。

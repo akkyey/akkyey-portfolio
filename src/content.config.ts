@@ -10,6 +10,8 @@ const notes = defineCollection({
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    // 同じテーマの Qiita 記事がある場合に指定する。指定すると canonical が Qiita を指し、本文末に案内リンクが付き、サイトマップから外れる
+    qiitaUrl: z.string().url().optional(),
   }),
 });
 

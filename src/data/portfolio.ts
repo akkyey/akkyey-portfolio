@@ -95,7 +95,7 @@ export const PILLARS: Pillar[] = [
     clientProblem:
       '「外部APIの429レート制限で夜間バッチが止まる」「取得データの欠損や訂正で分析結果が狂う」「クラウド・Colab上のDBがロック破損して遅い」',
     businessValue:
-      '不完全な外部API出力を前提とし、差分キャッシュ・恒等式によるデータ再構成・Polarsベクトル演算・ローカルステージングを組み合わせた「自己修復型データ基盤」を構築。全4,400銘柄規模の財務・価格データ処理も10分以内で安定完走させます。',
+      '不完全な外部API出力を前提とし、差分キャッシュ・恒等式によるデータ再構成・Polarsベクトル演算・ローカルステージングを組み合わせた「自己修復型データ基盤」を構築。全4,400銘柄規模の財務・価格データ処理を10分以内で安定して完走させています。',
     techStack: ['Python', 'Polars', 'Pandas MultiIndex', 'SQLite3', 'DuckDB', 'EDINET API', 'yfinance', 'Google Colab'],
     metrics: [
       { label: '4,000銘柄集計速度', value: '0.03秒 (Polars)' },
@@ -121,7 +121,7 @@ export const PILLARS: Pillar[] = [
     clientProblem:
       '「毎日スプレッドシートへ手動で数値を転記している」「NotionとGoogle Workspaceのデータが二重管理になっている」「既存GASスクリプトがブラックボックス化して保守できない」',
     businessValue:
-      'Google Apps Script (TypeScript / clasp) と外部API・Notion APIを連携し、データ収集から可視化ダッシュボード更新、定期通知までを完全自動化。ローカルエミュレータによる自動テスト環境も整備し、仕様変更に強い運用を実現します。',
+      'Google Apps Script (TypeScript / clasp) と外部API・Notion APIを連携し、データ収集から可視化ダッシュボード更新、定期通知までを完全自動化。ローカルエミュレータによる自動テスト環境も整備し、仕様変更に強い運用にしています。',
     techStack: ['Google Apps Script', 'TypeScript', 'clasp', 'Google Sheets API', 'Notion API', 'REST Webhook', 'GitHub Actions'],
     metrics: [
       { label: 'GAS×MCPシリーズ累計', value: `${gasMcpSeriesPv} PV` },
@@ -144,7 +144,7 @@ export const PILLARS: Pillar[] = [
     clientProblem:
       '「AIエージェントに業務ツールを安全に操作させたい」「APIトークン消費量が膨大でコストが合わない」「機密データを外部に出さずローカルGPUで実用的なAI開発環境を動かしたい」',
     businessValue:
-      'Model Context Protocol (MCP) サーバーの独自実装から、Rust × Node.js による特権分離、ハッシュキャッシュによるAIトークン消費90%削減、コンシューマGPU（RTX 3060）でのSWE-bench 40.7%完走を実現した制御プレーンまで、実務で破綻しないAI基盤を提供します。',
+      'Model Context Protocol (MCP) サーバーの独自実装から、Rust × Node.js による特権分離、ハッシュキャッシュによるAIトークン消費90%削減、コンシューマGPU（RTX 3060）でのSWE-bench 40.7%完走を実現した制御プレーンまで、実務で破綻しないAI基盤を実装・検証してきました。',
     techStack: ['MCP (Model Context Protocol)', 'Rust', 'Node.js', 'TypeScript', 'Python', 'Local LLM / Ollama', 'Aider', 'systemd'],
     metrics: [
       { label: 'SWE-bench Lite (RTX 3060)', value: '40.7% 完走・検索1位' },
@@ -168,7 +168,7 @@ export const SEO_EVIDENCES: SeoEvidence[] = [
     queries: ['yfinance 429', 'yfinance 日本株 欠損'],
     articleIds: ['00f5b3275749dbd820c3', '12a8df355ee895ed73d4'],
     position: '2記事同時上位ランクイン',
-    highlight: '累計PV 1位の看板記事と最新EDINET連携記事が検索上位を席巻',
+    highlight: '累計PV 1位の看板記事と最新EDINET連携記事が、ともに検索上位に表示',
   },
   {
     domain: 'Python / 高速データ処理',
@@ -209,8 +209,8 @@ export const SEO_EVIDENCES: SeoEvidence[] = [
     domain: 'Colab / SQLite自己修復',
     queries: ['Colab SQLite3 自己修復 キャッシュ'],
     articleIds: ['3b7bd9cde3efcc601952', '320aaae5305b98bc0ad5'],
-    position: '1位・2位独占（AI引用 [1]〜[5] 完全独占）',
-    highlight: 'AI Overviewの全引用枠（[1]〜[5]）を自記事のみで完全独占',
+    position: '1位・2位（AI引用 [1]〜[5] すべて自記事）',
+    highlight: 'AI Overviewの引用枠（[1]〜[5]）がすべて自分の記事',
   },
   {
     domain: 'Colab / Git運用設計',
