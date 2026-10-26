@@ -15,4 +15,16 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { notes };
+// 手書きのお知らせ（サイト移転、書籍公開など）。1件1ファイル、本文は使わず title と link だけを表示する
+const news = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    // 詳細ページや外部ページへのリンク（任意）
+    link: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { notes, news };

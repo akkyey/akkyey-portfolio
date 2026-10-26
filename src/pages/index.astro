@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getNews } from '../data/news';
 import {
   SITE_STATS,
   PILLARS,
@@ -22,6 +23,8 @@ const categoryLabels: Record<Article['category'], string> = {
 
 const sortedByPv = [...ALL_ARTICLES].sort((a, b) => b.pv - a.pv);
 const topArticles = sortedByPv.slice(0, 5);
+
+const latestNews = await getNews(3);
 
 const availableProducts = PRODUCTS_AND_BOOKS.filter((p) => p.status === 'available');
 const upcomingProducts = PRODUCTS_AND_BOOKS.filter((p) => p.status !== 'available');
@@ -92,6 +95,35 @@ const GOOGLE_FORM_URL =
             <dd><span class="num">{SITE_STATS.seoTopCount}</span><span class="unit">件</span></dd>
           </div>
         </dl>
+      </div>
+    </section>
+
+    <!-- NEWS -->
+    <section id="news" class="news-strip" aria-label="お知らせ">
+      <div class="container news-strip-inner">
+        <h2 class="news-strip-title">お知らせ</h2>
+        <ol class="news-strip-list">
+          {
+            latestNews.map((n) => (
+              <li>
+                <time datetime={n.date}>{n.date.replaceAll('-', '.')}</time>
+                <span class="news-strip-kind">{n.kind}</span>
+                {n.link ? (
+                  <a
+                    href={n.link}
+                    target={n.external ? '_blank' : undefined}
+                    rel={n.external ? 'noopener noreferrer' : undefined}
+                  >
+                    {n.title}
+                  </a>
+                ) : (
+                  <span>{n.title}</span>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+        <a href="/news" class="news-strip-more">すべて見る →</a>
       </div>
     </section>
 
@@ -423,6 +455,7 @@ const GOOGLE_FORM_URL =
         <a href="#evidence">実績</a>
         <a href="#articles">記事</a>
         <a href="/notes">技術ノート</a>
+        <a href="/news">お知らせ</a>
         <a href="#contact">お問い合わせ</a>
         <a href="https://qiita.com/akkyey" target="_blank" rel="noopener noreferrer">Qiita ↗</a>
       </nav>
@@ -695,6 +728,89 @@ const GOOGLE_FORM_URL =
   .section-desc {
     margin: 1rem 0 0;
     color: var(--ink-2);
+  }
+
+  /* ---------- News strip ---------- */
+  .news-strip {
+    border-block: 1px solid var(--rule);
+    background: var(--surface);
+  }
+
+  .news-strip-inner {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr) auto;
+    gap: 1rem 2rem;
+    align-items: start;
+    padding-block: 1.5rem;
+  }
+
+  .news-strip-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    color: var(--ink);
+  }
+
+  .news-strip-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .news-strip-list li {
+    display: grid;
+    grid-template-columns: 6rem 6rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+    font-size: 0.9375rem;
+  }
+
+  .news-strip-list time {
+    font-family: var(--font-num);
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .news-strip-kind {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .news-strip-list a {
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .news-strip-list a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .news-strip-more {
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 960px) {
+    .news-strip-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .news-strip-list li {
+      grid-template-columns: auto auto;
+      justify-content: start;
+    }
+
+    .news-strip-list a {
+      grid-column: 1 / -1;
+      white-space: normal;
+    }
   }
 
   /* ---------- Pillars ---------- */

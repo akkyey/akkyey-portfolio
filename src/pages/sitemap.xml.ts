@@ -12,6 +12,7 @@ export const GET: APIRoute = async ({ site }) => {
   const urls = [
     { loc: new URL('/', base).href },
     { loc: new URL('/notes/', base).href },
+    { loc: new URL('/news/', base).href },
     ...notes.map((n) => ({
       loc: new URL(`/notes/${n.id}/`, base).href,
       lastmod: (n.data.updatedDate ?? n.data.pubDate).toISOString().slice(0, 10),
