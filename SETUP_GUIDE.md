@@ -150,7 +150,8 @@ operationZ/
 - `public/robots.txt`: 全クローラーを許可し、サイトマップの場所（`https://akkyey.dev/sitemap.xml`）を記載。
 - `src/pages/sitemap.xml.ts`: ビルド時に `/sitemap.xml` を生成。下書き（`draft: true`）と、Qiita を正規 URL にしているノート（`qiitaUrl` あり）は含めない。外部パッケージは使っていない。
 - `src/layouts/Layout.astro`: 全ページに `<link rel="canonical">` を出力。既定は `akkyey.dev` 上のそのページ自身。旧アドレス（workers.dev）で見られても、評価は `akkyey.dev` に集まる。
-- **Google Search Console**: `akkyey.dev` をドメインプロパティとして登録し、サイトマップ `https://akkyey.dev/sitemap.xml` を送信済みにしておく（登録・送信は Google アカウントで手作業）。
+- **Google Search Console**: 2026-10-26 に `akkyey.dev` をドメインプロパティとして登録・所有権確認（Cloudflare DNS 連携）およびサイトマップ `https://akkyey.dev/sitemap.xml` の送信を完了（ステータス「成功しました」、検出ページ数「3」を確認済み）。
+  - **更新不要の仕組み**: Google が `sitemap.xml` を定期的に自動巡回するため、記事やノートを追加した際も Search Console 側での再送信・手動更新作業は不要（サイト側で `npm run deploy` 時に自動更新される）。
 
 ### 4.3. メール（`contact@akkyey.dev`）
 - Cloudflare Email Routing で `contact@akkyey.dev` 宛てのメールを Gmail に転送（無料・受信のみ）。MX / SPF / DKIM のレコードは Email Routing が自動で追加。
