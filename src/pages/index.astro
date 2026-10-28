@@ -81,20 +81,26 @@ const GOOGLE_FORM_URL =
           <span class="hero-note">※ 技術相談・情報交換はお気軽にどうぞ</span>
         </div>
 
-        <dl class="hero-proof">
-          <div>
-            <dt>キャッシュによるAIトークン削減</dt>
-            <dd><span class="num">−90</span><span class="unit">%</span></dd>
-          </div>
-          <div>
-            <dt>4,400銘柄の全データ処理</dt>
-            <dd><span class="num">9</span><span class="unit">分台</span></dd>
-          </div>
-          <div>
-            <dt>Google検索1位を獲得したテーマ</dt>
-            <dd><span class="num">{SITE_STATS.seoTopCount}</span><span class="unit">件</span></dd>
-          </div>
-        </dl>
+        <ul class="hero-proof" aria-label="取り組んでいること">
+          <li>
+            <a href="#pillar-data-pipeline">
+              <span class="hp-pain">API制限で止まる夜間バッチに</span>
+              <span class="hp-answer">止まっても、自分で再開するデータ収集</span>
+            </a>
+          </li>
+          <li>
+            <a href="#pillar-gas-automation">
+              <span class="hp-pain">終わらない手作業の集計に</span>
+              <span class="hp-answer">Googleのツールで回る、手作業いらずの集計</span>
+            </a>
+          </li>
+          <li>
+            <a href="#pillar-ai-mcp-llm">
+              <span class="hp-pain">思いどおりに動かないAIに</span>
+              <span class="hp-answer">AIの暴走や無駄遣いを止める仕組み</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -249,7 +255,7 @@ const GOOGLE_FORM_URL =
           <p class="section-kicker">実績</p>
           <h2 class="section-title">Google検索上位を獲得した技術記事</h2>
           <p class="section-desc">
-            実際に現場で起きた問題を解いた記事が、同じ問題に困っている人の検索に応えています。（{SITE_STATS.asOfDate} 時点で確認）
+            実際に現場で起きた問題を解いた記事が、同じ問題に困っている人の検索に応えています。（{SITE_STATS.seoObservedAt} 時点で確認）
           </p>
         </header>
 
@@ -655,40 +661,49 @@ const GOOGLE_FORM_URL =
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin: clamp(3.5rem, 7vw, 5rem) 0 0;
+    padding: 0;
+    list-style: none;
     border-block-start: 1px solid var(--rule);
   }
 
-  .hero-proof > div {
+  .hero-proof > li {
     padding: 1.5rem 1.5rem 0 0;
   }
 
-  .hero-proof > div + div {
+  .hero-proof > li + li {
     padding-inline-start: 1.5rem;
     border-inline-start: 1px solid var(--rule);
   }
 
-  .hero-proof dt {
-    font-size: 0.875rem;
-    color: var(--muted);
-    margin-block-end: 0.25rem;
+  .hero-proof a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
   }
 
-  .hero-proof dd {
-    margin: 0;
+  .hero-proof .hp-pain {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-block-end: 0.35rem;
+  }
+
+  .hero-proof .hp-answer {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.5;
     color: var(--ink);
   }
 
-  .hero-proof .num {
-    font-family: var(--font-num);
-    font-size: clamp(2.25rem, 4vw, 3rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+  .hero-proof .hp-answer::after {
+    content: '\00a0→'; /* 改行で矢印だけが次の行に残らないよう、ノーブレークスペースでつなぐ */
+    color: var(--muted);
+    font-weight: 400;
   }
 
-  .hero-proof .unit {
-    font-size: 1rem;
-    margin-inline-start: 0.2rem;
-    color: var(--ink-2);
+  .hero-proof a:hover .hp-answer {
+    text-decoration: underline;
   }
 
   /* ---------- Sections ---------- */
@@ -1584,19 +1599,11 @@ const GOOGLE_FORM_URL =
       grid-template-columns: 1fr;
     }
 
-    .hero-proof > div,
-    .hero-proof > div + div {
+    .hero-proof > li,
+    .hero-proof > li + li {
       padding: 1.25rem 0;
       border-inline-start: 0;
       border-block-end: 1px solid var(--rule);
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-    }
-
-    .hero-proof .num {
-      font-size: 2rem;
     }
 
     .article-list li {

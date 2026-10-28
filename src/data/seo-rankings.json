@@ -1,0 +1,146 @@
+{
+  "observedAt": "2026-10-16",
+  "method": "Google 検索結果と AI Overview の引用を手作業で確認",
+  "note": "人が観測した記録。順位を確認し直したら observedAt と該当エントリを更新する。topRank は確認できた最上位の順位（「上位」としか記録がない場合は null）",
+  "entries": [
+    {
+      "domain": "Python / 株データ基盤",
+      "queries": [
+        "yfinance 429",
+        "yfinance 日本株 欠損"
+      ],
+      "articleIds": [
+        "00f5b3275749dbd820c3",
+        "12a8df355ee895ed73d4"
+      ],
+      "topRank": null,
+      "position": "2記事同時上位ランクイン",
+      "highlight": "累計PV 1位の看板記事と最新EDINET連携記事が、ともに検索上位に表示"
+    },
+    {
+      "domain": "Python / 高速データ処理",
+      "queries": [
+        "yfinance RSI MultiIndex 高速 銘柄"
+      ],
+      "articleIds": [
+        "466b4fd05cb9408920f4",
+        "02790d25e584204909d0"
+      ],
+      "topRank": 1,
+      "position": "1位・2位独占（AI引用 [1],[2],[4],[5]）",
+      "highlight": "4,000銘柄のテクニカル指標計算・高速復旧でGoogle AI Overviewを独占"
+    },
+    {
+      "domain": "Python / EDINET財務分析",
+      "queries": [
+        "EDINET 訂正有報 Python yfinance"
+      ],
+      "articleIds": [
+        "12a8df355ee895ed73d4"
+      ],
+      "topRank": 1,
+      "position": "Google検索 1位（AI最優先引用 [1]）",
+      "highlight": "30日スキャン＋差分キャッシュによる訂正有報の取りこぼし防止設計"
+    },
+    {
+      "domain": "Python / Polars高速化",
+      "queries": [
+        "Polars Expression 銘柄 株価 Python"
+      ],
+      "articleIds": [
+        "02790d25e584204909d0"
+      ],
+      "topRank": 1,
+      "position": "Google検索 1位（AI最優先引用 [1]）",
+      "highlight": "手続き型ループから宣言型Polars Expressionへの転換で0.03秒処理を実現"
+    },
+    {
+      "domain": "Python / 財務スクリーニング",
+      "queries": [
+        "yfinance Polars 債務超過 スクリーニング"
+      ],
+      "articleIds": [
+        "9ea2c5d3027c178c055e"
+      ],
+      "topRank": 1,
+      "position": "Google検索 1位（AI最優先引用 [1]）",
+      "highlight": "独自考案の「3層フィルタ」アーキテクチャがGoogle AI回答にそのまま採用"
+    },
+    {
+      "domain": "Colab / DB高速化・耐障害",
+      "queries": [
+        "Colab Google Drive DuckDB SQLite 遅い ロック"
+      ],
+      "articleIds": [
+        "320aaae5305b98bc0ad5",
+        "3b7bd9cde3efcc601952"
+      ],
+      "topRank": 1,
+      "position": "Google検索 1位（AI最優先引用 [1],[2]）",
+      "highlight": "「データステージング設計」がGoogle AI回答の標準プラクティスとして採用"
+    },
+    {
+      "domain": "Colab / SQLite自己修復",
+      "queries": [
+        "Colab SQLite3 自己修復 キャッシュ"
+      ],
+      "articleIds": [
+        "3b7bd9cde3efcc601952",
+        "320aaae5305b98bc0ad5"
+      ],
+      "topRank": 1,
+      "position": "1位・2位（AI引用 [1]〜[5] すべて自記事）",
+      "highlight": "AI Overviewの引用枠（[1]〜[5]）がすべて自分の記事"
+    },
+    {
+      "domain": "Colab / Git運用設計",
+      "queries": [
+        "Colab \"destination path already exists\" git clone"
+      ],
+      "articleIds": [
+        "1214793c2c384b81fe63"
+      ],
+      "topRank": null,
+      "position": "上位ランクイン（AI引用 [2]）",
+      "highlight": "ノートブック再実行時の冪等性を担保するリポジトリセットアップ設計"
+    },
+    {
+      "domain": "GAS / データ可視化自動化",
+      "queries": [
+        "Qiita 統計 GAS スプレッドシート PV"
+      ],
+      "articleIds": [
+        "5b690c6e6eafe88f0e75"
+      ],
+      "topRank": 1,
+      "position": "Google検索 1位（AI最優先引用 [1]）",
+      "highlight": "Qiita API × スプレッドシート × Notion連携による統計全自動化"
+    },
+    {
+      "domain": "GAS / MCP / AIエージェント",
+      "queries": [
+        "GAS MCPサーバー clasp",
+        "GAS エミュレータ AIエージェント MCP"
+      ],
+      "articleIds": [
+        "098a217d65c776dbb612",
+        "ed9e06b70c4518779ac1"
+      ],
+      "topRank": null,
+      "position": "2記事同時上位ランクイン",
+      "highlight": "GASをAIエージェントから自律開発・テストさせるMCPサーバー＆エミュレータ設計"
+    },
+    {
+      "domain": "ローカルLLM / SWE-bench",
+      "queries": [
+        "SWE-bench Lite RTX 3060 ローカルLLM"
+      ],
+      "articleIds": [
+        "a73b56f360009d7d46f5"
+      ],
+      "topRank": 1,
+      "position": "Google検索 1位（AI最優先引用 [1]）",
+      "highlight": "RTX 3060（12GB VRAM）環境でのローカルLLM制御プレーン設計と40.7%完走記録"
+    }
+  ]
+}

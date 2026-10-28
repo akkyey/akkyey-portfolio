@@ -10,7 +10,8 @@
 flowchart TD
     subgraph Local["ローカル開発環境 (/operationZ/site)"]
         Stats["Qiita統計JSON\nsrc/data/qiita-stats.json\n(タイトル・PV等・自動生成)"]
-        Data["データマスター\nsrc/data/portfolio.ts\n(カテゴリ・検索1位エビデンス等)"]
+        Seo["検索順位JSON\nsrc/data/seo-rankings.json\n(人が観測・観測日つき)"]
+        Data["データマスター\nsrc/data/portfolio.ts\n(カテゴリ・説明文。数値は計算)"]
         Script["自動同期スクリプト\nscripts/update-stats.mjs"]
         Astro["Astro v5 (Zero-JS)\nsrc/pages/index.astro\nsrc/layouts/Layout.astro"]
         Wrangler["Cloudflare設定\nwrangler.json (assets: ./dist)"]
@@ -78,8 +79,10 @@ operationZ/
         ├── content/
         │   └── notes/          # 技術ノート・検証メモMarkdown（*.md）。Qiita と同テーマなら frontmatter に qiitaUrl を書く
         ├── data/
-        │   ├── portfolio.ts    # 記事のカテゴリ等・検索1位エビデンス・プラン定義（手で編集）
-        │   └── qiita-stats.json # Qiita公開記事のタイトル・PV等（update-statsが自動生成・手で編集しない）
+        │   ├── portfolio.ts    # 記事のカテゴリ・説明文（手で編集。数値は書かず、下の2つから計算）
+        │   ├── qiita-stats.json # Qiita公開記事のタイトル・PV等（update-statsが自動生成・手で編集しない）
+        │   ├── seo-rankings.json # Google検索順位の観測記録（人が観測日つきで更新）
+        │   └── news.ts         # お知らせ一覧（Qiita・ノート・手書きのお知らせを合成）
         ├── layouts/
         │   └── Layout.astro    # 共通レイアウト・SEO・JSON-LD構造化データ
         └── pages/
@@ -94,13 +97,20 @@ operationZ/
 
 ## 3. 実装詳細と主要コンポーネント
 
-### 3.1. データマスター (`src/data/portfolio.ts`)
-データは2つのファイルに分けています。
+### 3.1. データの置き場所（種類ごとに分ける）
+データは「誰が作り、どう古くなるか」で置き場所を分けています。
 
-- **`qiita-stats.json`（自動生成）**: Qiita の公開記事のタイトル・URL・PV・いいね・ストック・タグ・日付。`npm run update-stats` が丸ごと書き出すので、手で編集しません。
-- **`portfolio.ts`（手で編集）**: 記事ごとの独自情報 `ARTICLE_META`（カテゴリ・検索上位バッジ・注目フラグ）、11領域の実測Google検索1位クエリ、サービスメニュー（対象・期間目安）、Zenn Book企画。
+| 種類 | 置き場所 | 更新のしかた |
+| :--- | :--- | :--- |
+| 機械が取得するデータ（Qiita のタイトル・URL・PV・いいね・ストック・タグ・日付） | `src/data/qiita-stats.json` | `npm run update-stats` が丸ごと書き出す。手で編集しない |
+| 人が観測した事実（Google 検索順位・AI Overview の引用） | `src/data/seo-rankings.json` | 確認し直したら、観測日 `observedAt` と該当エントリを手で更新する（5.5） |
+| 人が決める情報（記事のカテゴリ・注目フラグ、取り組みやツールの説明文） | `src/data/portfolio.ts` | 手で編集する。**数値は書かず、上の2つから計算する** |
+| 人が書く記事（技術ノート・お知らせ） | `src/content/notes/`・`src/content/news/` | Markdown を追加する（5.3・5.4） |
+| 計算で出せる値（合計・件数・1位の数・ストック数など） | 保存しない | ビルドのたびに計算する |
 
-`ALL_ARTICLES` はビルド時に JSON と `ARTICLE_META` を記事IDで合体して作り、`SITE_STATS` の合計値も一覧から計算します。そのため「総数と一覧の件数」「合計と個別の和」は構造上ずれません。
+- `ALL_ARTICLES` はビルド時に `qiita-stats.json` と `ARTICLE_META` を記事IDで合体して作り、`SITE_STATS` の合計値も一覧から計算します。「総数と一覧の件数」「合計と個別の和」は構造上ずれません。
+- トップの「Google検索1位を獲得したテーマ」の件数は、`seo-rankings.json` の `topRank` が 1 のエントリ数です。取り組み欄の「〇クエリ制覇」「〇ストック」も、JSON から計算しています。
+- 検索順位の表示には、Qiita の取得日ではなく `seo-rankings.json` の観測日（`observedAt`）を出します。
 
 ### 3.2. ゼロJSアーキテクチャ (`src/pages/index.astro`)
 - **クライアントJSを完全排除**:
@@ -258,6 +268,28 @@ Qiita と同じテーマのページが2つあると、Google はどちらか一
 
 > **💡 なぜ本文中のリンクだけではダメなのか？**  
 > 本文中に Qiita 記事へのリンクを張るだけでは、Google にとっては「関連ページへのリンク」に過ぎず、重複コンテンツとしての競合は避けられません。検索エンジンに正規ページを明示するため、必ず `qiitaUrl`（`<link rel="canonical">`）とセットで使います。
+
+### 5.5. 検索順位（`src/data/seo-rankings.json`）を更新する
+
+検索順位は人が Google で確認した記録です。確認し直したら、次を更新します。
+
+1. `observedAt` を確認した日（`YYYY-MM-DD`）にする
+2. 該当エントリの `position`（表示する文言）と `topRank`（確認できた最上位の順位。「上位」としか言えない場合は `null`）を直す
+3. 新しく上位に入ったキーワードがあれば、エントリを追加する（`domain`・`queries`・`articleIds`・`topRank`・`position`・`highlight`）
+4. `npm run deploy` で反映する
+
+件数や「〇クエリ制覇」は自動で計算されるので、`portfolio.ts` や `index.astro` に順位の数字を書く必要はありません。
+
+### 5.6. エージェントに作業を任せるときの禁止事項
+
+AI エージェントに作業を任せるときは、次のことをさせません。どれも実際に起きた（または起きかけた）ことから決めたルールです。
+
+| 禁止事項 | 理由 | 代わりにすること |
+| :--- | :--- | :--- |
+| 自動生成のファイル（`src/data/qiita-stats.json`）を手で編集する | 次に `npm run update-stats` を実行すると全件上書きされ、手で直した内容が消える | 数値を直したいときは `npm run update-stats` を実行する |
+| 文章（説明文・見出し・バッジなど）に、件数・順位・合計などの数字を直書きする | 記録と食い違っても気づけない。実際に「Google検索1位 11件」（記録では8件）、「7クエリ制覇」（記録では6）が残っていた | 数字は `qiita-stats.json` や `seo-rankings.json` から計算して表示する（3.1） |
+| プレビュー用のサーバーを起動したまま放置する | 作業が終わってもバックグラウンドで動き続ける。実際に「1 task running」のまま残っていた | 確認が終わったら停止し、停止したことを報告する |
+| 新しい仕組み（CI、外部サービス、パッケージなど）を独断で追加する | 運用の手順が増え、手順書と実態がずれる。実際に、デプロイのたびのコマンド実行について聞いたら GitHub Actions を勧められた | 提案はしてよいが、追加するかどうかは人が決める。まず今の手順（5.1〜5.5）で済まないかを考え、済むなら手順書に書き足す |
 
 ---
 
