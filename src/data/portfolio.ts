@@ -259,6 +259,9 @@ export const PRODUCTS_AND_BOOKS: ProductItem[] = [
  * 新しい記事をQiitaに公開したら、ここに1行足してカテゴリを決める（未登録でもビルドは通り、警告が出る）。
  */
 export const ARTICLE_META: Record<string, ArticleMeta> = {
+  'fb4c70c93102924396e2': { category: 'architecture' },
+  'd461b4ebf96487a434b5': { category: 'architecture' },
+  '9633813c4e9582d93428': { category: 'ai-mcp-llm' },
   '1214793c2c384b81fe63': { category: 'data-pipeline' },
   '320aaae5305b98bc0ad5': { category: 'data-pipeline', featured: true },
   '9ea2c5d3027c178c055e': { category: 'data-pipeline', featured: true },

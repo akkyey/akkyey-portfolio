@@ -3,6 +3,57 @@
   "source": "Qiita API v2 /authenticated_user/items (public only)",
   "items": [
     {
+      "itemId": "9633813c4e9582d93428",
+      "title": "Astroサイトの運用をAIエージェントに任せる手順 ― 持ち帰れる運用手順書テンプレートと、作業・確認・判断の分担",
+      "url": "https://qiita.com/akkyey/items/9633813c4e9582d93428",
+      "pv": 0,
+      "likes": 0,
+      "stocks": 0,
+      "tags": [
+        "astro",
+        "AIエージェント",
+        "個人開発",
+        "自動化",
+        "cloudflare"
+      ],
+      "createdAt": "2026-11-03",
+      "updatedAt": "2026-11-03"
+    },
+    {
+      "itemId": "d461b4ebf96487a434b5",
+      "title": "QiitaのPVをAstroで表示し、自サイトとの重複も防ぐ実装一式",
+      "url": "https://qiita.com/akkyey/items/d461b4ebf96487a434b5",
+      "pv": 0,
+      "likes": 0,
+      "stocks": 0,
+      "tags": [
+        "Qiita",
+        "QiitaAPI",
+        "astro",
+        "個人開発",
+        "TypeScript"
+      ],
+      "createdAt": "2026-11-03",
+      "updatedAt": "2026-11-03"
+    },
+    {
+      "itemId": "fb4c70c93102924396e2",
+      "title": "AIエージェントをCMSの代わりにする静的サイトの設計 ― Astro × Qiita API で考える、エージェントとプログラムの境界の引き方",
+      "url": "https://qiita.com/akkyey/items/fb4c70c93102924396e2",
+      "pv": 0,
+      "likes": 0,
+      "stocks": 0,
+      "tags": [
+        "astro",
+        "AIエージェント",
+        "個人開発",
+        "設計論",
+        "TypeScript"
+      ],
+      "createdAt": "2026-11-03",
+      "updatedAt": "2026-11-03"
+    },
+    {
       "itemId": "1214793c2c384b81fe63",
       "title": "Colabで再実行時の「fatal: destination path already exists」を防ぐ：GitHubリポジトリの安全なクローン・実行セットアップ設計",
       "url": "https://qiita.com/akkyey/items/1214793c2c384b81fe63",
@@ -39,7 +90,7 @@
       "itemId": "9ea2c5d3027c178c055e",
       "title": "【後編】債務超過の銘柄が割安ランキング1位に来たので、Polarsと3層フィルタで除外ファイルを分けた",
       "url": "https://qiita.com/akkyey/items/9ea2c5d3027c178c055e",
-      "pv": 359,
+      "pv": 360,
       "likes": 0,
       "stocks": 1,
       "tags": [
@@ -56,7 +107,7 @@
       "itemId": "12a8df355ee895ed73d4",
       "title": "【前編】EDINETの訂正有報を半年取りこぼし、yfinanceは429制限… 30日スキャン＋差分キャッシュで作り直した話",
       "url": "https://qiita.com/akkyey/items/12a8df355ee895ed73d4",
-      "pv": 412,
+      "pv": 413,
       "likes": 0,
       "stocks": 1,
       "tags": [
@@ -158,7 +209,7 @@
       "itemId": "76705c54607e2cc3a19b",
       "title": "型システムを信じるな、規約を信じろ。独立プローブによる「泥臭い」境界防御のすすめ",
       "url": "https://qiita.com/akkyey/items/76705c54607e2cc3a19b",
-      "pv": 792,
+      "pv": 794,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -260,7 +311,7 @@
       "itemId": "098a217d65c776dbb612",
       "title": "【続】AI エージェントに GAS 開発を任せたら、MCP サーバー自作に行き着いた話",
       "url": "https://qiita.com/akkyey/items/098a217d65c776dbb612",
-      "pv": 1085,
+      "pv": 1086,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -327,7 +378,7 @@
       "itemId": "ed9e06b70c4518779ac1",
       "title": "AI エージェントに GAS 開発を任せたら、MCP サーバー自作に行き着いた話",
       "url": "https://qiita.com/akkyey/items/ed9e06b70c4518779ac1",
-      "pv": 1860,
+      "pv": 1863,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -444,7 +495,7 @@
       "itemId": "342d3946fd7d2a637018",
       "title": "外部API依存環境における自己修復型データ基盤の階層設計",
       "url": "https://qiita.com/akkyey/items/342d3946fd7d2a637018",
-      "pv": 381,
+      "pv": 382,
       "likes": 1,
       "stocks": 1,
       "tags": [
