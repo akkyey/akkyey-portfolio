@@ -5,7 +5,6 @@ import {
   SITE_STATS,
   PILLARS,
   SEO_EVIDENCES,
-  PRODUCTS_AND_BOOKS,
   ALL_ARTICLES,
   type Article,
 } from '../data/portfolio';
@@ -25,9 +24,6 @@ const sortedByPv = [...ALL_ARTICLES].sort((a, b) => b.pv - a.pv);
 const topArticles = sortedByPv.slice(0, 5);
 
 const latestNews = await getNews(3);
-
-const availableProducts = PRODUCTS_AND_BOOKS.filter((p) => p.status === 'available');
-const upcomingProducts = PRODUCTS_AND_BOOKS.filter((p) => p.status !== 'available');
 
 // 各領域で読者に見せる代表記事は PV 上位 3 本に絞る
 const pillarReps = (ids: string[]) =>
@@ -282,56 +278,6 @@ const GOOGLE_FORM_URL =
               }
             </tbody>
           </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRODUCTS -->
-    <section id="products" class="section section-tint">
-      <div class="container">
-        <header class="section-header">
-          <p class="section-kicker">ツール・書籍</p>
-          <h2 class="section-title">実践ノウハウを形にしたツールと書籍</h2>
-        </header>
-
-        <div class="products">
-          {
-            availableProducts.map((prod) => (
-              <article class="product-feature">
-                <p class="product-state">{prod.priceOrLicense}</p>
-                <h3>{prod.title}</h3>
-                <p>{prod.description}</p>
-                <ul>
-                  {prod.features.map((f) => (
-                    <li>{f}</li>
-                  ))}
-                </ul>
-                <a
-                  href={prod.linkUrl}
-                  target={prod.linkUrl.startsWith('http') ? '_blank' : undefined}
-                  rel={prod.linkUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  class="btn btn-secondary"
-                >
-                  {prod.linkLabel} {prod.linkUrl.startsWith('http') ? '↗' : '→'}
-                </a>
-              </article>
-            ))
-          }
-
-          {upcomingProducts.length > 0 && (
-            <div class="product-upcoming">
-              <h3>準備中の書籍</h3>
-              <ul>
-                {upcomingProducts.map((prod) => (
-                  <li>
-                    <strong>{prod.title}</strong>
-                    <span>{prod.badge}</span>
-                  </li>
-                ))}
-              </ul>
-              <a href="#contact" class="btn-text">公開時にお知らせを受け取る →</a>
-            </div>
-          )}
         </div>
       </div>
     </section>
