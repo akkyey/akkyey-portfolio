@@ -1,6 +1,6 @@
-# @akkyey 公式ポートフォリオ＆ハブサイト 構築・運用完全手順書
+# @akkyey 技術ハブ＆ポートフォリオサイト 構築・運用手順書
 
-本ドキュメントは、フリーランス活動・受託案件獲得の基盤として構築した独自ページ（Astro × Cloudflare Workers Static Assets）の設計思想、構築手順、自動化パイプライン、および今後の運用手順を体系的に記録したものです。
+本ドキュメントは、技術記事・検証ノート・実績データを集約する技術ハブサイト（Astro × Cloudflare Workers Static Assets）の設計思想、構築手順、自動化パイプライン、および今後の運用手順を体系的に記録したものです。
 
 ---
 
@@ -33,8 +33,8 @@ flowchart TD
 
     Local -- "npm run deploy (wrangler)" --> CF
     Local -- "git push origin main" --> GitHub
-    CF -- "https://akkyey.dev" --> Client["閲覧者・発注クライアント"]
-    Client -- "ご相談送信" --> GForm
+    CF -- "https://akkyey.dev" --> Client["サイト訪問者・読者"]
+    Client -- "メッセージ送信" --> GForm
 ```
 
 ### 技術スタック
@@ -114,7 +114,7 @@ operationZ/
 
 ### 3.2. ゼロJSアーキテクチャ (`src/pages/index.astro`)
 - **クライアントJSを完全排除**:
-  - ヒーローセクション、3つの専門領域、検索1位エビデンス表、書籍・OSS一覧、全31記事アーカイブ、サービスプランまでをピュアHTML/CSSでレンダリング。
+  - ヒーローセクション、3つの専門領域、検索上位エビデンス表、ツール・書籍一覧、全記事アーカイブまでをピュアHTML/CSSでレンダリング。
   - お問い合わせフォームをGoogleフォーム別タブ型に集約したことで、バリデーションスクリプト等のクライアントJSも完全不要化（0バイト）。
   - Google Fonts以外の外部スクリプト読み込みが一切ないため、エッジ配信と合わせて高速な初期表示が実現されています。
 
@@ -176,7 +176,7 @@ operationZ/
 ターミナルで以下のコマンドを実行するだけです：
 
 ```bash
-cd /Users/irom/Documents/operationZ/site
+cd <プロジェクトルート>/site
 npm run update-stats
 npm run deploy
 git add src/data/qiita-stats.json src/data/portfolio.ts
@@ -189,11 +189,11 @@ git push origin main
 ポートフォリオ本体の修正も、技術ノート（`/notes`）の追加も、**完全に同一のワンコマンド運用**です。
 
 #### コマンドを実行する場所（作業ディレクトリ）
-コマンドは必ず **`site` フォルダ**（`/Users/irom/Documents/operationZ/site`）の中で実行します。
+コマンドは必ず **`site` フォルダ**（`<プロジェクトルート>/site`）の中で実行します。
 
 ```bash
 # 1. サイトの作業フォルダへ移動（ターミナル起動時）
-cd /Users/irom/Documents/operationZ/site
+cd <プロジェクトルート>/site
 
 # 2. ビルド＆本番デプロイを一発実行
 npm run deploy

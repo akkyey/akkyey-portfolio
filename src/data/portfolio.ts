@@ -157,7 +157,7 @@ export const PILLARS: Pillar[] = [
     clientProblem:
       '「AIエージェントに業務ツールを安全に操作させたい」「APIトークン消費量が膨大でコストが合わない」「機密データを外部に出さずローカルGPUで実用的なAI開発環境を動かしたい」',
     businessValue:
-      'Model Context Protocol (MCP) サーバーの独自実装から、Rust × Node.js による特権分離、ハッシュキャッシュによるAIトークン消費90%削減、コンシューマGPU（RTX 3060）でのSWE-bench 40.7%完走を実現した制御プレーンまで、実務で破綻しないAI基盤を実装・検証してきました。',
+      'Model Context Protocol (MCP) サーバーの独自実装から、Rust × Node.js による特権分離、変化のないデータはAIを呼ばずにスキップするハッシュキャッシュ、コンシューマGPU（RTX 3060）でのSWE-bench 40.7%完走を確認した制御プレーンまで、実務で破綻しないAI基盤を実装・検証してきました。',
     techStack: ['MCP (Model Context Protocol)', 'Rust', 'Node.js', 'TypeScript', 'Python', 'Local LLM / Ollama', 'Aider', 'systemd'],
     metrics: [
       { label: 'SWE-bench Lite (RTX 3060)', value: '40.7% 完走・検索1位' },
@@ -185,7 +185,7 @@ export const PRODUCTS_AND_BOOKS: ProductItem[] = [
     badge: 'Zenn Book / 実践テンプレート',
     title: '日本株データ基盤・完全構築ガイド（EDINET × yfinance × Polars × Colab）',
     description:
-      'Qiitaで検索1位を獲得した8本の株データ基盤記事を一気通貫のプロダクションコードに統合。訂正有報の30日差分スキャン、yfinance 429自己修復、Polars 3層フィルタ、Colabローカルステージングまで完全収録。',
+      'Qiitaで公開してきた株データ基盤シリーズを一気通貫のコードに統合。訂正有報の30日差分スキャン、yfinance 429自己修復、Polars 3層フィルタ、Colabローカルステージングまで収録。',
     features: [
       '全4,400銘柄を9分台で処理するTurboパイプライン完成形コード',
       'EDINET API × yfinance のハイブリッド欠損補完・恒等式再構成モジュール',
@@ -193,9 +193,9 @@ export const PRODUCTS_AND_BOOKS: ProductItem[] = [
     ],
     tech: ['Python', 'Polars', 'EDINET', 'yfinance', 'DuckDB', 'SQLite3'],
     status: 'coming-soon',
-    priceOrLicense: '公開準備中（先行案内受付中）',
+    priceOrLicense: '公開準備中',
     linkUrl: '#contact',
-    linkLabel: '先行案内・導入相談を申し込む',
+    linkLabel: '公開時のお知らせを受け取る',
   },
   {
     id: 'book-gas-mcp',
@@ -211,9 +211,9 @@ export const PRODUCTS_AND_BOOKS: ProductItem[] = [
     ],
     tech: ['GAS', 'TypeScript', 'MCP', 'clasp', 'Node.js', 'Notion API'],
     status: 'coming-soon',
-    priceOrLicense: '公開準備中（先行案内受付中）',
+    priceOrLicense: '公開準備中',
     linkUrl: '#contact',
-    linkLabel: '先行案内・導入相談を申し込む',
+    linkLabel: '公開時のお知らせを受け取る',
   },
   {
     id: 'book-local-llm-control-plane',
@@ -221,17 +221,17 @@ export const PRODUCTS_AND_BOOKS: ProductItem[] = [
     badge: 'Zenn Book / アーキテクチャ設計書',
     title: 'コンシューマGPU（RTX 3060）で回すローカルLLM制御プレーン設計・実装ガイド',
     description:
-      '12GB VRAMのRTX 3060でSWE-bench Lite 40.7%完走を達成した制御プレーンの全設計。Proxy・死活監視Monitor・ハッシュキャッシュ・Rust×Node.js特権分離まで、ローカルLLMを実用戦力化するノウハウを凝縮。',
+      '12GB VRAMのRTX 3060でSWE-bench Lite 40.7%完走を確認した制御プレーンの全設計。Proxy・死活監視Monitor・ハッシュキャッシュ・Rust×Node.js特権分離まで、ローカルLLMを実用戦力化するノウハウを凝縮。',
     features: [
       '推論サーバーのハング・OOMを自動検知して復旧するProxy & Monitor実装',
-      'AIトークン消費を9割削減する決定論的ハッシュキャッシュ機構',
+      '変化のないデータはAIを呼ばずにスキップする決定論的ハッシュキャッシュ機構',
       'Highlander Protocol（唯一性保証）と特権分離によるエージェント暴走防止',
     ],
     tech: ['Python', 'Rust', 'Node.js', 'systemd', 'Local LLM', 'Aider'],
     status: 'coming-soon',
-    priceOrLicense: '公開準備中（先行案内受付中）',
+    priceOrLicense: '公開準備中',
     linkUrl: '#contact',
-    linkLabel: '先行案内・導入相談を申し込む',
+    linkLabel: '公開時のお知らせを受け取る',
   },
   {
     id: 'oss-stock-analyzer-core',
