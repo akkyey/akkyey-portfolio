@@ -1,6 +1,6 @@
 {
   "observedAt": "2026-11-03",
-  "method": "Google 検索結果と AI Overview の引用を Chrome 自動巡回（AppleScript）で確認",
+  "method": "Google 検索結果と AI Overview の引用を手作業（シークレットウィンドウ）で確認",
   "note": "人が観測した記録。順位を確認し直したら observedAt と該当エントリを更新する。topRank は確認できた最上位の順位（「上位」としか記録がない場合は null）",
   "entries": [
     {
@@ -16,7 +16,7 @@
       ],
       "topRank": 1,
       "position": "1位・2位（AI引用 [1],[2]）",
-      "highlight": "「yfinance 日本株 欠損」で1位・2位（AI引用 [1],[2]）、「yfinance 429」で2位・5位にランクイン"
+      "highlight": "累計PV 1位の看板記事と最新EDINET連携記事によるデータ自己修復・自律再構成設計"
     },
     {
       "domain": "Python / 高速データ処理",
@@ -30,8 +30,8 @@
         "00f5b3275749dbd820c3"
       ],
       "topRank": 1,
-      "position": "1位〜4位独占（AI引用 [1],[2] 独占）",
-      "highlight": "4,000銘柄のテクニカル指標計算・高速復旧で自然検索1位〜4位とGoogle AI Overview引用枠を独占"
+      "position": "1位〜4位（AI引用 [1],[2]）",
+      "highlight": "4,000銘柄のテクニカル指標計算・高速復旧設計"
     },
     {
       "domain": "Python / EDINET財務分析",
@@ -45,7 +45,7 @@
       ],
       "topRank": 1,
       "position": "1位・2位（AI引用 [1],[2],[3]）",
-      "highlight": "30日スキャン＋差分キャッシュによる訂正有報の取りこぼし防止設計が1位・2位とAI引用上位を獲得"
+      "highlight": "30日スキャン＋差分キャッシュによる訂正有報の取りこぼし防止設計"
     },
     {
       "domain": "Python / Polars高速化",
@@ -70,7 +70,7 @@
       ],
       "topRank": 1,
       "position": "Google検索 1位・2位",
-      "highlight": "独自考案の「3層フィルタ」アーキテクチャとEDINET連携記事が1位・2位にランクイン"
+      "highlight": "独自考案の「3層フィルタ」アーキテクチャとEDINET財務データ連携"
     },
     {
       "domain": "Colab / DB高速化・耐障害",
@@ -82,8 +82,8 @@
         "3b7bd9cde3efcc601952"
       ],
       "topRank": 1,
-      "position": "1位〜3位独占（AI引用 [1]〜[3] 独占）",
-      "highlight": "「データステージング設計」が自然検索1位〜3位およびGoogle AI Overviewの引用枠すべてを独占"
+      "position": "1位〜3位（AI引用 [1]〜[3]）",
+      "highlight": "Google Drive上のDBロック・遅延を防ぐローカルデータステージング設計"
     },
     {
       "domain": "Colab / SQLite自己修復",
@@ -97,8 +97,8 @@
         "1214793c2c384b81fe63"
       ],
       "topRank": 1,
-      "position": "1位〜4位独占（AI引用 [1]〜[3] 独占）",
-      "highlight": "自然検索1位〜4位およびAI Overviewの引用枠（全3件）がすべて自分の記事"
+      "position": "1位〜4位（AI引用 [1]〜[3]）",
+      "highlight": "破壊を前提としたColab×SQLiteの物理再構成アーキテクチャ"
     },
     {
       "domain": "Colab / Git運用設計",
@@ -138,7 +138,7 @@
       ],
       "topRank": 1,
       "position": "両クエリ1位（AI引用 [2],[3],[5]）",
-      "highlight": "GASをAIエージェントから自律開発・テストさせるMCPサーバー＆エミュレータ設計3部作が上位独占"
+      "highlight": "GASをAIエージェントから自律開発・テストさせるMCPサーバー＆エミュレータ設計"
     },
     {
       "domain": "ローカルLLM / SWE-bench",
@@ -150,8 +150,8 @@
         "fc35e126098c8610b884"
       ],
       "topRank": 1,
-      "position": "1位・2位独占（AI引用 [1],[2] 独占）",
-      "highlight": "RTX 3060（12GB VRAM）環境でのローカルLLM制御プレーン設計と40.7%完走記録が1位・2位とAI引用を独占"
+      "position": "1位・2位（AI引用 [1],[2]）",
+      "highlight": "RTX 3060（12GB VRAM）環境でのローカルLLM制御プレーン設計と40.7%完走記録"
     }
   ]
 }
