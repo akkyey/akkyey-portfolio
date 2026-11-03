@@ -4,9 +4,9 @@ import seoRankings from "./seo-rankings.json";
 /*
  * データの置き場所（種類ごとに分ける）
  * - qiita-stats.json   : 機械が取得するデータ（Qiita API）。scripts/update-stats.mjs が全件を上書きする
- * - seo-rankings.json  : 人が観測した事実（Google 検索順位）。観測日（observedAt）と一緒に手で更新する
+ * - seo-rankings.json  : 人が確認した記録（Google 検索順位）。観測日（observedAt）と一緒に手で更新する
  * - このファイル        : 人が決める情報（カテゴリ・説明文）。数値は書かず、上の2つから計算する
- * - src/content/       : 人が書く記事（技術ノート・お知らせ）。スキーマで型チェックする
+ * - src/content/       : 人が書く記事（技術ノート・お知らせ）。スキーマで検証する
  */
 
 export interface Article {
