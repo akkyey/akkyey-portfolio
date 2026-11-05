@@ -1,0 +1,814 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScNXZCqWAvDhvRGUUxNFqIOgAePvuUZ9DCsIjOkxFcn6ia6IA/viewform';
+---
+
+<Layout
+  title="akkyey | Resilient Systems & Local AI Infrastructure"
+  description="Pragmatic systems engineering for autonomous AI agents, Model Context Protocol (MCP) process isolation, and resilient data pipelines. Built to fail gracefully and self-heal autonomously."
+  lang="en"
+>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/en" class="brand" aria-label="akkyey home">
+        <img class="brand-avatar" src="/akkyey-avatar-96.webp" alt="akkyey avatar" width="36" height="36" />
+        <span class="brand-name">akkyey</span>
+        <span class="brand-desc">Pragmatic Systems</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <a href="#pillars">Pillars</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#contact" class="nav-cta">Contact</a>
+        <a href="/" class="lang-switch" aria-label="Switch to Japanese">日本語</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="hero-kicker">Systems Engineering &amp; AI Infrastructure</p>
+        <h1 class="hero-title">
+          Architectures built to fail gracefully,<br />
+          and self-heal autonomously.
+        </h1>
+        <p class="hero-lead">
+          From project management to low-level systems programming. I design and build reliable architectures under real-world constraints — whether eliminating orphaned MCP processes or running autonomous agents on consumer GPUs.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Get in Touch</a>
+          <a href="#pillars" class="btn btn-text">Explore Technical Pillars &rarr;</a>
+          <span class="hero-note">※ Open for architecture inquiries &amp; technical discussions</span>
+        </div>
+
+        <ul class="hero-proof" aria-label="Key Proof Points">
+          <li>
+            <a href="#pillar-ai-mcp">
+              <span class="hp-pain">Local LLM Hardware Limits</span>
+              <span class="hp-answer">40.7% SWE-bench Lite on RTX 3060 (12GB)</span>
+            </a>
+          </li>
+          <li>
+            <a href="#pillar-ai-mcp">
+              <span class="hp-pain">Orphaned MCP Zombie Leaks</span>
+              <span class="hp-answer">Rust × Node.js Process Privilege Separation</span>
+            </a>
+          </li>
+          <li>
+            <a href="#pillar-data">
+              <span class="hp-pain">API 429 Throttling &amp; Lock Fails</span>
+              <span class="hp-answer">0.03s Vectorized Polars Self-Healing ETL</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PILLARS -->
+    <section id="pillars" class="section">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">Core Technical Focus</p>
+          <h2 class="section-title">Engineering for Real-World Reliability</h2>
+          <p class="section-desc">
+            Moving beyond high-level wrappers. Addressing OS-level process management, state synchronization, and constrained resource allocation.
+          </p>
+        </header>
+
+        <ol class="pillars">
+          <!-- Pillar 1 -->
+          <li class="pillar" id="pillar-ai-mcp">
+            <div class="pillar-head">
+              <span class="pillar-no">01</span>
+              <div>
+                <h3 class="pillar-title">AI Agents, MCP Servers &amp; Local Infrastructure</h3>
+                <p class="pillar-sub">
+                  OS process isolation, daemon supervisors, and agent control planes under consumer GPU bounds
+                </p>
+              </div>
+            </div>
+
+            <div class="pillar-body">
+              <div class="pillar-problem">
+                <h4>The Real-World Problem</h4>
+                <p>
+                  As AI agents (Cursor, Claude, Windsurf) integrate with external tools via Model Context Protocol (MCP), developers constantly battle broken pipes, orphaned node zombies consuming 100% CPU, and multiple instances clashing over ports upon IDE reloads. Meanwhile, running coding agents locally usually collapses under VRAM exhaustion.
+                </p>
+              </div>
+
+              <div class="pillar-solution">
+                <h4>Architectural Approach</h4>
+                <p>
+                  Implemented a dual-layer supervisor architecture in <strong>Rust × Node.js</strong> using strict privilege separation (PrivSep), signal-trap propagation, and socket-based state handshakes to guarantee clean parent-child cleanup. Designed context-compression and diff-prompt harnesses to resolve <strong>40.7% on SWE-bench Lite using a consumer RTX 3060 (12GB VRAM)</strong>.
+                </p>
+              </div>
+
+              <div class="pillar-metrics">
+                <div class="metric">
+                  <span class="m-val">40.7%</span>
+                  <span class="m-lbl">SWE-bench Lite (RTX 3060 12GB)</span>
+                </div>
+                <div class="metric">
+                  <span class="m-val">PrivSep</span>
+                  <span class="m-lbl">Rust Supervisor × Node.js Worker</span>
+                </div>
+                <div class="metric">
+                  <span class="m-val">0 Stale Locks</span>
+                  <span class="m-lbl">Unix Socket Handshake Singleton</span>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!-- Pillar 2 -->
+          <li class="pillar" id="pillar-data">
+            <div class="pillar-head">
+              <span class="pillar-no">02</span>
+              <div>
+                <h3 class="pillar-title">Autonomous &amp; Resilient Data Pipelines</h3>
+                <p class="pillar-sub">
+                  Self-healing batch processing, Polars SIMD expressions, and decoupled staging architectures
+                </p>
+              </div>
+            </div>
+
+            <div class="pillar-body">
+              <div class="pillar-problem">
+                <h4>The Real-World Problem</h4>
+                <p>
+                  Nightly data aggregation pipelines frequently halt due to unannounced HTTP 429 rate limits, retrospective corporate data corrections, and concurrency lock contention when SQLite/DuckDB databases operate over cloud drives or ephemeral notebooks.
+                </p>
+              </div>
+
+              <div class="pillar-solution">
+                <h4>Architectural Approach</h4>
+                <p>
+                  Constructed resilient data ingestion pipelines treating external APIs as untrusted. Combined 30-day differential cache scans, mathematical identity validation, SIMD-accelerated Polars expressions, and decoupled local RAM/disk staging layers to process 4,400+ assets with complete autonomy in under 10 minutes.
+                </p>
+              </div>
+
+              <div class="pillar-metrics">
+                <div class="metric">
+                  <span class="m-val">0.03s</span>
+                  <span class="m-lbl">4,000 Assets Multi-Criteria Filter</span>
+                </div>
+                <div class="metric">
+                  <span class="m-val">9 min</span>
+                  <span class="m-lbl">Full 4,400 Ticker Pipeline Run</span>
+                </div>
+                <div class="metric">
+                  <span class="m-val">Self-Healing</span>
+                  <span class="m-lbl">Differential Rolling Cache Staging</span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section id="philosophy" class="section section-tint">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">Core Principles</p>
+          <h2 class="section-title">The Engineering Protocol</h2>
+        </header>
+
+        <div class="philosophy-grid">
+          <div class="phil-card">
+            <div class="phil-icon">01</div>
+            <h3>Primary Sources Over Speculation</h3>
+            <p>
+              Every claim, architectural choice, and benchmark is grounded in verifiable evidence — execution logs, Git commit histories, and real-world system calls. No LLM hallucinations or superficial buzzwords.
+            </p>
+          </div>
+
+          <div class="phil-card">
+            <div class="phil-icon">02</div>
+            <h3>Explicit Failure Boundaries</h3>
+            <p>
+              Unknowns are explicitly flagged as unknown. Systems are architected with decoupled boundaries so that an external upstream crash never cascades into data corruption.
+            </p>
+          </div>
+
+          <div class="phil-card">
+            <div class="phil-icon">03</div>
+            <h3>Human-in-the-Loop Orchestration</h3>
+            <p>
+              AI agents excel at code formatting, translation, and localized refactoring. Humans hold the project management helm — defining trade-offs, validating edge cases, and steering architecture.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIGHLIGHTS / CODE -->
+    <section id="highlights" class="section">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">Technical Highlights</p>
+          <h2 class="section-title">Featured Implementations &amp; Notes</h2>
+        </header>
+
+        <div class="highlights-grid">
+          <article class="highlight-card">
+            <span class="hl-tag">Benchmark</span>
+            <h3>Running SWE-bench Lite on RTX 3060 (12GB)</h3>
+            <p>
+              Achieved 40.7% resolution rate on SWE-bench Lite using quantized local models and Aider-based diff harnesses under strict consumer VRAM limits.
+            </p>
+            <div class="hl-meta">
+              <span>Stack: Python, Aider, systemd, Ollama</span>
+            </div>
+          </article>
+
+          <article class="highlight-card">
+            <span class="hl-tag">Architecture</span>
+            <h3>MCP Zombie Process Prevention (Rust × Node.js)</h3>
+            <p>
+              Designing process supervisor lifecycles that guarantee child termination on SIGTERM/pipe disconnection, eliminating CPU resource leaks.
+            </p>
+            <div class="hl-meta">
+              <span>Stack: Rust, Node.js, MCP Protocol, Unix Signals</span>
+            </div>
+          </article>
+
+          <article class="highlight-card">
+            <span class="hl-tag">Data Staging</span>
+            <h3>DuckDB + SQLite Fast Staging Pipeline</h3>
+            <p>
+              CLI one-liner patterns and RAM disk staging techniques to bypass cloud drive SQLite locking latency and prevent database corruption.
+            </p>
+            <div class="hl-meta">
+              <span>Stack: DuckDB, SQLite3, Bash, Google Colab</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section section-tint">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">Get in Touch</p>
+          <h2 class="section-title">Technical Discussions &amp; Inquiries</h2>
+          <p class="section-desc">
+            Open for technical exchange, architecture consultations, or discussions on local AI agents and resilient data pipelines.
+          </p>
+        </header>
+
+        <div class="contact-box">
+          <div class="contact-card">
+            <h3>Direct Message Form</h3>
+            <p>
+              Feel free to send a message via our secure Google Form. No Google login required. An email address is optional (only needed if you request a response).
+            </p>
+            <div class="contact-cta-row">
+              <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                Open Message Form &nearr;
+              </a>
+              <a href="https://github.com/akkyey" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                GitHub Profile &nearr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-brand">
+        <strong>akkyey</strong> &mdash; Pragmatic Systems Engineering
+      </p>
+      <nav class="footer-nav" aria-label="Footer Navigation">
+        <a href="/en">Home</a>
+        <a href="#pillars">Pillars</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#contact">Contact</a>
+        <a href="/">日本語版 &rarr;</a>
+        <a href="https://github.com/akkyey" target="_blank" rel="noopener noreferrer">GitHub &nearr;</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 akkyey</p>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* Header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(247, 245, 240, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.85rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .brand-avatar {
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+  }
+
+  .brand-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--rule-strong);
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .main-nav a {
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--ink-2);
+    transition: color 0.15s ease;
+  }
+
+  .main-nav a:hover {
+    color: var(--accent);
+  }
+
+  .main-nav .nav-cta {
+    color: var(--on-accent);
+    background: var(--accent);
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .main-nav .nav-cta:hover {
+    background: var(--accent-strong);
+  }
+
+  .main-nav .lang-switch {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  .main-nav .lang-switch:hover {
+    background: var(--surface-tint);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Hero */
+  .hero {
+    padding-block: 4.5rem 3.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero-kicker {
+    font-family: var(--font-num);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.85rem, 4vw, 2.65rem);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
+  }
+
+  .hero-lead {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 44rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-note {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-left: 0.5rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-strong);
+  }
+
+  .btn-text {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .btn-text:hover {
+    color: var(--accent-strong);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink-2);
+    border: 1px solid var(--rule-strong);
+  }
+
+  .btn-outline:hover {
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .hero-proof {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hero-proof li a {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 1rem 1.15rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .hero-proof li a:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .hp-pain {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .hp-answer {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  /* Section */
+  .section {
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-tint {
+    background: var(--surface-tint);
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+    max-width: 42rem;
+  }
+
+  .section-kicker {
+    font-family: var(--font-num);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Pillars */
+  .pillars {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .pillar {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 2rem;
+  }
+
+  .pillar-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pillar-no {
+    font-family: var(--font-num);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .pillar-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .pillar-sub {
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .pillar-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pillar-problem h4,
+  .pillar-solution h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar-problem p,
+  .pillar-solution p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .pillar-metrics {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    background: var(--surface-tint);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .m-val {
+    font-family: var(--font-num);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .m-lbl {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* Philosophy */
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .phil-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+  }
+
+  .phil-icon {
+    font-family: var(--font-num);
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .phil-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .phil-card p {
+    font-size: 0.92rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* Highlights */
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .highlight-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hl-tag {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    margin-bottom: 0.85rem;
+  }
+
+  .highlight-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.65rem;
+    line-height: 1.35;
+  }
+
+  .highlight-card p {
+    font-size: 0.92rem;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  .hl-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    padding-top: 0.75rem;
+  }
+
+  /* Contact */
+  .contact-box {
+    max-width: 38rem;
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 2rem;
+  }
+
+  .contact-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-card p {
+    font-size: 0.95rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-cta-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding-block: 2.5rem;
+    background: var(--surface);
+    border-top: 1px solid var(--rule);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-brand strong {
+    color: var(--ink);
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-nav a {
+    text-decoration: none;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .footer-nav a:hover {
+    color: var(--accent);
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 768px) {
+    .pillar-body {
+      grid-template-columns: 1fr;
+    }
+
+    .main-nav a:not(.nav-cta):not(.lang-switch) {
+      display: none;
+    }
+  }
+</style>

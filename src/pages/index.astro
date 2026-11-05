@@ -54,6 +54,7 @@ const GOOGLE_FORM_URL =
         <a href="#articles">記事</a>
         <a href="/notes">技術ノート</a>
         <a href="#contact" class="nav-cta">お問い合わせ</a>
+        <a href="/en" class="lang-switch" aria-label="Switch to English">English</a>
       </nav>
     </div>
   </header>
@@ -493,6 +494,22 @@ const GOOGLE_FORM_URL =
   .main-nav .nav-cta:hover {
     color: var(--on-accent);
     background: var(--accent-strong);
+  }
+
+  .main-nav .lang-switch {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-weight: 600;
+    margin-inline-start: 0.25rem;
+  }
+
+  .main-nav .lang-switch:hover {
+    background: var(--surface-tint);
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   /* ---------- Buttons ---------- */
@@ -1498,7 +1515,7 @@ const GOOGLE_FORM_URL =
 
   /* ---------- Responsive ---------- */
   @media (max-width: 960px) {
-    .main-nav a:not(.nav-cta) {
+    .main-nav a:not(.nav-cta):not(.lang-switch) {
       display: none;
     }
 

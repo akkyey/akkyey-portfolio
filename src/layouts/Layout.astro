@@ -2,6 +2,7 @@
 interface Props {
   title?: string;
   description?: string;
+  lang?: 'ja' | 'en';
   /** 正規 URL。省略時は akkyey.dev 上のこのページ自身（Qiita と同テーマのノートは Qiita 記事を指定する） */
   canonical?: string;
 }
@@ -9,6 +10,7 @@ interface Props {
 const {
   title = 'akkyey | 止まらない仕組みづくり — データ基盤・業務自動化・AI活用',
   description = 'API制限で止まる夜間バッチ、終わらない手作業の集計、思いどおりに動かないAI。プロジェクトマネージャーとして現場を回してきたエンジニア akkyey が、「止まる前提」で設計し、壊れても自分で立ち直る仕組みをつくり、その知見を発信しています。',
+  lang = 'ja',
   canonical,
 } = Astro.props;
 
@@ -26,7 +28,7 @@ const jsonLd = {
     description,
     url: Astro.site?.href,
     image: ogImage,
-    sameAs: ['https://qiita.com/akkyey'],
+    sameAs: ['https://qiita.com/akkyey', 'https://github.com/akkyey'],
     knowsAbout: [
       'Python Data Engineering',
       'Polars',
@@ -46,13 +48,16 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="ja" href="https://akkyey.dev/" />
+    <link rel="alternate" hreflang="en" href="https://akkyey.dev/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://akkyey.dev/" />
     <link rel="sitemap" href="/sitemap.xml" />
     <meta name="theme-color" content="#f7f5f0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
