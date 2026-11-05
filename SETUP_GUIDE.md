@@ -172,20 +172,42 @@ operationZ/
 
 ## 5. 日常の運用手順マニュアル
 
-### 5.1. 統計数値（PV・いいね・ストック）を最新に更新する
-ターミナルで以下のコマンドを実行するだけです：
+### 5.1. Qiita記事を新規公開・改題・アップデートしたとき（必須パイプライン）
 
-```bash
-cd <プロジェクトルート>/site
-npm run update-stats
-npm run deploy
-git add src/data/qiita-stats.json src/data/portfolio.ts
-git commit -m "chore: sync latest qiita stats"
-git push origin main
-```
-→ 統計更新後、`npm run deploy` で本番へ即時反映され、`git push` で最新データがGitHubにバックアップされます。
+Qiitaで新着記事を公開した際、または既存記事のタイトル改題・大幅アップデートを行った際は、**本番サイト（akkyey.dev）との整合性を維持するため、以下の手順を必ず実行します**。
 
-### 5.2. サイトの文言修正または技術ノートの追加・編集
+1. **全記事整合性チェック**:
+   ```bash
+   python3 qiita_consistency_check.py -o consistency_report.md
+   ```
+   リンク切れ、旧タイトルのまま残ったリンク文言、回番号のズレをチェックし、ERRORがあれば修正します。
+2. **ローカル原本の保存・同期**:
+   Qiita APIから最新本文を取得し、`operationZ/qiita_articles/<item_id>.md` として保存・更新します。
+3. **お知らせ（NEWS）ファイルの追加**:
+   `src/content/news/YYYY-MM-DD-<slug>.md` を作成し、新着公開や改題の旨を記載します（トップページとお知らせ一覧に即時反映されます）。
+   ```markdown
+   ---
+   title: "Qiita新着記事『〇〇』を公開しました"
+   date: 2026-XX-XX
+   link: "https://qiita.com/akkyey/items/<item_id>"
+   ---
+   ```
+4. **サイト側メタデータ（portfolio.ts）の更新**:
+   新着記事の場合、`src/data/portfolio.ts` の `ARTICLE_META` やピラー代表記事（`representativeIds`）にカテゴリを追加します。
+5. **統計・タイトルの自動同期**:
+   ```bash
+   npm run update-stats
+   ```
+   Qiita APIから最新のタイトル・PV・いいね・ストック数を一括取得し、`src/data/qiita-stats.json` を更新します。
+6. **本番デプロイ＆Git保存**:
+   ```bash
+   npm run deploy
+   git add .
+   git commit -m "feat: release new article / update title"
+   git push origin main
+   ```
+
+### 5.2. 統計数値（PV・いいね・ストック）を最新に更新する（定期更新時）
 ポートフォリオ本体の修正も、技術ノート（`/notes`）の追加も、**完全に同一のワンコマンド運用**です。
 
 #### コマンドを実行する場所（作業ディレクトリ）
