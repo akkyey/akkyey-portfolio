@@ -84,7 +84,12 @@ const sumPv = (ids: string[]) =>
   qiitaStats.items.filter((i) => ids.includes(i.itemId)).reduce((sum, i) => sum + i.pv, 0);
 
 /** 「AIエージェントにGAS開発を任せる」シリーズ */
-const GAS_MCP_SERIES_IDS = ['ed9e06b70c4518779ac1', '098a217d65c776dbb612', '1541c5f0220e925a03b4'];
+const GAS_MCP_SERIES_IDS = [
+  'ed9e06b70c4518779ac1',
+  '098a217d65c776dbb612',
+  '1541c5f0220e925a03b4',
+  '75776a904d1a8a04b0cf',
+];
 const gasMcpSeriesPv = sumPv(GAS_MCP_SERIES_IDS).toLocaleString('ja-JP');
 
 /** 指定した記事のストック数（qiita-stats.json から取得） */
@@ -142,6 +147,7 @@ export const PILLARS: Pillar[] = [
       { label: 'ランニングコスト', value: '0円〜 (Workspace内完結)' },
     ],
     representativeIds: [
+      '75776a904d1a8a04b0cf',
       'ed9e06b70c4518779ac1',
       '098a217d65c776dbb612',
       '1541c5f0220e925a03b4',
@@ -184,6 +190,7 @@ export const SEO_EVIDENCES: SeoEvidence[] = seoRankings.entries;
  * 新しい記事をQiitaに公開したら、ここに1行足してカテゴリを決める（未登録でもビルドは通り、警告が出る）。
  */
 export const ARTICLE_META: Record<string, ArticleMeta> = {
+  '75776a904d1a8a04b0cf': { category: 'gas-automation', featured: true },
   'fb4c70c93102924396e2': { category: 'architecture' },
   'd461b4ebf96487a434b5': { category: 'architecture' },
   '9633813c4e9582d93428': { category: 'ai-mcp-llm' },
