@@ -231,10 +231,10 @@
       "stocks": 2,
       "tags": [
         "Rust",
+        "Python",
         "テスト",
-        "ポエム",
         "MCP",
-        "設計思想"
+        "json-rpc"
       ],
       "createdAt": "2026-04-04",
       "updatedAt": "2026-11-07"
@@ -428,7 +428,7 @@
       "itemId": "049e6f3fb658766d1e16",
       "title": "yfinanceの限界とAPI境界の構造的安定化設計",
       "url": "https://qiita.com/akkyey/items/049e6f3fb658766d1e16",
-      "pv": 829,
+      "pv": 830,
       "likes": 1,
       "stocks": 2,
       "tags": [
