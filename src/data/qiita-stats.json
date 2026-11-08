@@ -1,12 +1,12 @@
 {
-  "asOfDate": "2026-11-07",
+  "asOfDate": "2026-11-08",
   "source": "Qiita API v2 /authenticated_user/items (public only)",
   "items": [
     {
       "itemId": "75776a904d1a8a04b0cf",
       "title": "clasp に MCP モードが入った今、GAS の自作 MCP に何を残すか ― 本体との棲み分けと、push の前に止める仕組み",
       "url": "https://qiita.com/akkyey/items/75776a904d1a8a04b0cf",
-      "pv": 708,
+      "pv": 722,
       "likes": 2,
       "stocks": 1,
       "tags": [
@@ -23,7 +23,7 @@
       "itemId": "9633813c4e9582d93428",
       "title": "Astroサイトの運用をAIエージェントに任せる手順 ― 持ち帰れる運用手順書テンプレートと、作業・確認・判断の分担",
       "url": "https://qiita.com/akkyey/items/9633813c4e9582d93428",
-      "pv": 354,
+      "pv": 373,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -40,7 +40,7 @@
       "itemId": "d461b4ebf96487a434b5",
       "title": "QiitaのPVをAstroで表示し、自サイトとの重複も防ぐ実装一式",
       "url": "https://qiita.com/akkyey/items/d461b4ebf96487a434b5",
-      "pv": 351,
+      "pv": 355,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -57,7 +57,7 @@
       "itemId": "fb4c70c93102924396e2",
       "title": "AIエージェントをCMSの代わりにする静的サイトの設計 ― Astro × Qiita API で考える、エージェントとプログラムの境界の引き方",
       "url": "https://qiita.com/akkyey/items/fb4c70c93102924396e2",
-      "pv": 359,
+      "pv": 367,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -74,7 +74,7 @@
       "itemId": "1214793c2c384b81fe63",
       "title": "Colabで再実行時の「fatal: destination path already exists」を防ぐ：GitHubリポジトリの安全なクローン・実行セットアップ設計",
       "url": "https://qiita.com/akkyey/items/1214793c2c384b81fe63",
-      "pv": 297,
+      "pv": 298,
       "likes": 0,
       "stocks": 0,
       "tags": [
@@ -90,7 +90,7 @@
       "itemId": "320aaae5305b98bc0ad5",
       "title": " Google ColabでGoogle Drive上のSQLite / DuckDBが遅い・ロック破損する問題と、ローカルディスクを使ったデータステージング設計",
       "url": "https://qiita.com/akkyey/items/320aaae5305b98bc0ad5",
-      "pv": 353,
+      "pv": 354,
       "likes": 0,
       "stocks": 0,
       "tags": [
@@ -107,7 +107,7 @@
       "itemId": "9ea2c5d3027c178c055e",
       "title": "【後編】債務超過の銘柄が割安ランキング1位に来たので、Polarsと3層フィルタで除外ファイルを分けた",
       "url": "https://qiita.com/akkyey/items/9ea2c5d3027c178c055e",
-      "pv": 377,
+      "pv": 379,
       "likes": 0,
       "stocks": 1,
       "tags": [
@@ -118,13 +118,13 @@
         "Polars"
       ],
       "createdAt": "2026-10-02",
-      "updatedAt": "2026-11-07"
+      "updatedAt": "2026-11-08"
     },
     {
       "itemId": "12a8df355ee895ed73d4",
       "title": "【前編】EDINETの訂正有報を半年取りこぼし、yfinanceは429制限… 30日スキャン＋差分キャッシュで作り直した話",
       "url": "https://qiita.com/akkyey/items/12a8df355ee895ed73d4",
-      "pv": 435,
+      "pv": 438,
       "likes": 0,
       "stocks": 1,
       "tags": [
@@ -135,13 +135,13 @@
         "Polars"
       ],
       "createdAt": "2026-09-28",
-      "updatedAt": "2026-11-04"
+      "updatedAt": "2026-11-08"
     },
     {
       "itemId": "a73b56f360009d7d46f5",
       "title": "RTX 3060でSWE-bench Liteを完走してみた ― ローカルLLM制御プレーン設計と40.7%までの記録",
       "url": "https://qiita.com/akkyey/items/a73b56f360009d7d46f5",
-      "pv": 667,
+      "pv": 669,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -158,7 +158,7 @@
       "itemId": "fc35e126098c8610b884",
       "title": "ローカルLLMを支える制御プレーンを実装する ― Proxy・Monitor・Deploymentの設計",
       "url": "https://qiita.com/akkyey/items/fc35e126098c8610b884",
-      "pv": 755,
+      "pv": 757,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -209,7 +209,7 @@
       "itemId": "822f5d6ce31a9709d5a9",
       "title": "MCPサーバーのゾンビプロセスと詰まりを防ぐ：Node.js × Rust によるプロセス特権分離の設計",
       "url": "https://qiita.com/akkyey/items/822f5d6ce31a9709d5a9",
-      "pv": 643,
+      "pv": 644,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -226,7 +226,7 @@
       "itemId": "76705c54607e2cc3a19b",
       "title": "Rust製MCPサーバーで cargo test は通るのに IDE から tools/call が動かなかった ― 実装と前提を共有しない Python プローブで検証する",
       "url": "https://qiita.com/akkyey/items/76705c54607e2cc3a19b",
-      "pv": 802,
+      "pv": 803,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -241,9 +241,9 @@
     },
     {
       "itemId": "9a808e45a2abe8f0f0a1",
-      "title": "【完結編】10分の壁を突破せよ！全4,400銘柄の財務データ・価格・順位付けを 9分台で完遂する Turbo パイプラインの全貌",
+      "title": "Python で EDINET API の XBRL を取得し、約4,000銘柄の順位付けまで9分台で処理する",
       "url": "https://qiita.com/akkyey/items/9a808e45a2abe8f0f0a1",
-      "pv": 1855,
+      "pv": 1858,
       "likes": 2,
       "stocks": 3,
       "tags": [
@@ -254,13 +254,13 @@
         "yfinance"
       ],
       "createdAt": "2026-03-26",
-      "updatedAt": "2026-11-04"
+      "updatedAt": "2026-11-08"
     },
     {
       "itemId": "ccc008519baca7ea8b85",
       "title": "[GAS] Qiita記事の統計（PV・いいね・ストック）を全自動で可視化するGASにNotionをくっつけてみた",
       "url": "https://qiita.com/akkyey/items/ccc008519baca7ea8b85",
-      "pv": 497,
+      "pv": 500,
       "likes": 1,
       "stocks": 0,
       "tags": [
@@ -288,13 +288,13 @@
         "yfinance"
       ],
       "createdAt": "2026-03-23",
-      "updatedAt": "2026-10-18"
+      "updatedAt": "2026-11-08"
     },
     {
       "itemId": "466b4fd05cb9408920f4",
       "title": "欠損の多いyfinanceの RSI をPandas MultiIndex で 4,000 銘柄をだいたい2分で高速復旧する",
       "url": "https://qiita.com/akkyey/items/466b4fd05cb9408920f4",
-      "pv": 1554,
+      "pv": 1557,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -305,7 +305,7 @@
         "yfinance"
       ],
       "createdAt": "2026-03-16",
-      "updatedAt": "2026-10-18"
+      "updatedAt": "2026-11-08"
     },
     {
       "itemId": "1541c5f0220e925a03b4",
@@ -328,7 +328,7 @@
       "itemId": "098a217d65c776dbb612",
       "title": "【続】AI エージェントに GAS 開発を任せたら、MCP サーバー自作に行き着いた話",
       "url": "https://qiita.com/akkyey/items/098a217d65c776dbb612",
-      "pv": 1112,
+      "pv": 1114,
       "likes": 2,
       "stocks": 3,
       "tags": [
@@ -345,7 +345,7 @@
       "itemId": "affe1d814e9e7efa1694",
       "title": "不完全な外部API出力を真値へ再構成する手法：財務分析パイプラインにおける整合性基準設計",
       "url": "https://qiita.com/akkyey/items/affe1d814e9e7efa1694",
-      "pv": 267,
+      "pv": 268,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -361,7 +361,7 @@
       "itemId": "6d025c6e89defccbf4eb",
       "title": "yfinanceと日本株：データ欠損を恒等式で自律再構成する整合性基準設計",
       "url": "https://qiita.com/akkyey/items/6d025c6e89defccbf4eb",
-      "pv": 318,
+      "pv": 319,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -378,7 +378,7 @@
       "itemId": "0c1c20466b0382ca61b0",
       "title": "HTTP 400でAIが死んだ日。「自己申告プロトコル」の実装",
       "url": "https://qiita.com/akkyey/items/0c1c20466b0382ca61b0",
-      "pv": 797,
+      "pv": 798,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -395,7 +395,7 @@
       "itemId": "ed9e06b70c4518779ac1",
       "title": "AI エージェントに GAS 開発を任せたら、MCP サーバー自作に行き着いた話",
       "url": "https://qiita.com/akkyey/items/ed9e06b70c4518779ac1",
-      "pv": 1903,
+      "pv": 1904,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -428,7 +428,7 @@
       "itemId": "049e6f3fb658766d1e16",
       "title": "yfinanceの限界とAPI境界の構造的安定化設計",
       "url": "https://qiita.com/akkyey/items/049e6f3fb658766d1e16",
-      "pv": 830,
+      "pv": 832,
       "likes": 1,
       "stocks": 2,
       "tags": [
@@ -445,7 +445,7 @@
       "itemId": "5b690c6e6eafe88f0e75",
       "title": "[GAS] Qiita記事の統計（PV・いいね・ストック）を全自動で可視化するGASを全力で作ってみた！",
       "url": "https://qiita.com/akkyey/items/5b690c6e6eafe88f0e75",
-      "pv": 1032,
+      "pv": 1033,
       "likes": 3,
       "stocks": 7,
       "tags": [
@@ -462,7 +462,7 @@
       "itemId": "6718fcfd44dad8d6459d",
       "title": "破壊を前提としたColab×SQLiteの物理再構成アーキテクチャ",
       "url": "https://qiita.com/akkyey/items/6718fcfd44dad8d6459d",
-      "pv": 408,
+      "pv": 409,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -495,7 +495,7 @@
       "itemId": "5716b0b14bfdcebd6d6b",
       "title": "【告白】トークンイーターの正体：私はなぜ「窒息」し、どう救われたのか",
       "url": "https://qiita.com/akkyey/items/5716b0b14bfdcebd6d6b",
-      "pv": 1047,
+      "pv": 1049,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -512,7 +512,7 @@
       "itemId": "342d3946fd7d2a637018",
       "title": "外部API依存環境における自己修復型データ基盤の階層設計",
       "url": "https://qiita.com/akkyey/items/342d3946fd7d2a637018",
-      "pv": 384,
+      "pv": 385,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -545,7 +545,7 @@
       "itemId": "98adeefc2df5ed12f5a2",
       "title": "正常性バイアスに抗う設計：外部状態を信用しない決定論的アーキテクチャ",
       "url": "https://qiita.com/akkyey/items/98adeefc2df5ed12f5a2",
-      "pv": 790,
+      "pv": 791,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -562,7 +562,7 @@
       "itemId": "3b7bd9cde3efcc601952",
       "title": "Google Colab × SQLite3 を「壊れる前提」で安定運用する方法（自己修復20行＋AIキャッシュ戦略）",
       "url": "https://qiita.com/akkyey/items/3b7bd9cde3efcc601952",
-      "pv": 946,
+      "pv": 947,
       "likes": 1,
       "stocks": 1,
       "tags": [
@@ -579,7 +579,7 @@
       "itemId": "00f5b3275749dbd820c3",
       "title": "Python + yfinance で日本株分析：データ欠損・429エラーを「自己修復」して止まらないスクリーナーを作る",
       "url": "https://qiita.com/akkyey/items/00f5b3275749dbd820c3",
-      "pv": 3404,
+      "pv": 3411,
       "likes": 1,
       "stocks": 6,
       "tags": [
@@ -590,7 +590,7 @@
         "yfinance"
       ],
       "createdAt": "2026-02-17",
-      "updatedAt": "2026-11-04"
+      "updatedAt": "2026-11-08"
     }
   ]
 }
